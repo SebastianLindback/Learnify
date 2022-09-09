@@ -15,8 +15,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
+//No need during local development
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
