@@ -16,10 +16,10 @@ namespace Infrastructure
         {
             var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.Development.json")
             .Build();
 
-            var connectionString = configuration.GetConnectionString("DefualtConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlite(connectionString);
         }
     }
