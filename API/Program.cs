@@ -21,8 +21,10 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
     var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
-    context.Database.Migrate();
+    await context.Database.MigrateAsync();
+    await StoreContextSeed.SeedAsync(context,logger);
 }
 
 // Configure the HTTP request pipeline.
