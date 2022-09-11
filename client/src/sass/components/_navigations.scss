@@ -1,5 +1,7 @@
 .nav-container {
     background-color: $color-grey-light-1;
+    margin: -10px;
+    padding: 10px 5px;
   }
   
   .nav {
@@ -15,6 +17,24 @@
   
       & > * {
         margin: 0 10px;
+      }
+  
+      & > *:not(.nav__left__hamburger):not(.nav__left__mobile-search) {
+        @media only screen and (max-width: $bp-medium) {
+          display: none;
+        }
+      }
+  
+      &__hamburger {
+        display: none;
+        color: $color-grey-dark-2;
+        font-size: 1em;
+        margin-left: 20px;
+        z-index: 100;
+  
+        @media only screen and (max-width: $bp-medium) {
+          display: block;
+        }
       }
   
       &__logo {
@@ -86,4 +106,52 @@
         }
       }
     }
+  }
+  
+  .nav-menu {
+    background-color: #0e0545;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -120%;
+    transition: 850ms;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+    transition: 350ms;
+  }
+  
+  .nav-menu-items {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+  
+    &__header {
+      font-size: 30px !important;
+      font-weight: bold;
+      padding: 0 10px 10px;
+      border-bottom: solid 1px $color-grey-light-2;
+      margin-bottom: 30px;
+    }
+  
+    & li {
+      padding: 10px 20px;
+      font-size: 18px;
+      color: $color-grey-light-1;
+      font-weight: bold;
+    }
+  }
+  
+  .cancel {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    top: 10px;
+    background: none;
+    color: white;
+    list-style: none;
   }
