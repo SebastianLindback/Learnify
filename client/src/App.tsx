@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import Navigation from './components/Navigation';
 import Detailpage from './pages/DetailPage';
 import Homepage from './pages/HomePage';
 import Login from './pages/Login';
 
 function App() {
   return (<>
+    <Navigation></Navigation>
     <Routes>
       <Route path="/" element={<Homepage/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
