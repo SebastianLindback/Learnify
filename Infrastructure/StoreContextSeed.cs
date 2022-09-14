@@ -10,13 +10,52 @@ namespace Infrastructure
         {
             try
             {
-                if (!context.Courses.Any()){
+
+                if (!context.Categories.Any())
+                {
+                    var categoryData = File.ReadAllText("../Infrastructure/SeedData/categories.json");
+                    var categories = JsonSerializer.Deserialize<List<Category>>(categoryData);
+
+                    foreach (var category in categories)
+                    {
+                        context.Categories.Add(category);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+                if (!context.Courses.Any())
+                {
                     var courseData = File.ReadAllText("../Infrastructure/SeedData/courses.json");
                     var courses = JsonSerializer.Deserialize<List<Course>>(courseData);
-                    
+
                     foreach (var course in courses)
                     {
                         context.Courses.Add(course);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+                if (!context.Requirements.Any())
+                {
+                    var requirementData = File.ReadAllText("../Infrastructure/SeedData/requirements.json");
+                    var requirements = JsonSerializer.Deserialize<List<Requirement>>(requirementData);
+
+                    foreach (var requirement in requirements)
+                    {
+
+                        context.Requirements.Add(requirement);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+                if (!context.Learnings.Any())
+                {
+                    var learningData = File.ReadAllText("../Infrastructure/SeedData/learnings.json");
+                    var learnings = JsonSerializer.Deserialize<List<Learning>>(learningData);
+
+                    foreach (var learning in learnings)
+                    {
+                        context.Learnings.Add(learning);
                     }
 
                     await context.SaveChangesAsync();
@@ -26,7 +65,7 @@ namespace Infrastructure
             {
                 logger.LogError(e.Message);
             }
-            
+
         }
     }
 }

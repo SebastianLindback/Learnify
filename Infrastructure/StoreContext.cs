@@ -1,17 +1,31 @@
 using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using System.Threading.Tasks;
+
 
 namespace Infrastructure
 {
     public class StoreContext : DbContext
     {
-        public StoreContext(DbContextOptions<StoreContext> options):base(options)
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
-        
-        public DbSet<Course> Courses {get; set;}
 
+        public DbSet<Course> Courses { get; set; }
+
+        public DbSet<Requirement> Requirements { get; set; }
+
+        public DbSet<Learning> Learnings { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var configuration = new ConfigurationBuilder()

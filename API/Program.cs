@@ -1,3 +1,4 @@
+using Entity.Interfaces;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,16 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
 builder.Services.AddControllers();
 
-var connectionString = 
+var connectionString =
 builder.Configuration.GetConnectionString("DefaultConnection");
-
-builder.Services.AddDbContext<StoreContext>(x => {
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddDbContext<StoreContext>(x =>
+{
     x.UseSqlite(connectionString);
 });
-builder.Services.AddCors(opt => {
-    opt.AddPolicy("CorsPolicy", policy => {
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
         policy
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -32,7 +37,7 @@ using (var scope = app.Services.CreateScope())
     var logger = app.Services.GetRequiredService<ILogger<Program>>();
     var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
     await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context,logger);
+    await StoreContextSeed.SeedAsync(context, logger);
 }
 
 // Configure the HTTP request pipeline.
