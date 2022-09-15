@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entity.Specifications
 {
-    public interface ISpecifications<T>
+    public interface ISpecification<T>
     {
         Expression<Func<T, bool>> Criteria { get; }
 
