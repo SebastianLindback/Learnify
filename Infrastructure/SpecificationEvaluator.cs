@@ -9,7 +9,7 @@ namespace Infrastructure
 {
     public class SpecificationEvaluator<T> where T : class
     {
-        public static IQueryable<T> GetQueryable(IQueryable<T> inputQuery, ISpecification<T> spec)
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecification<T> spec)
         {
             var query = inputQuery;
 
