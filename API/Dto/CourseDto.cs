@@ -36,7 +36,7 @@ namespace API.Dto
 
         public string Category { get; set; }
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public DateTime LastUpdated { get; set; }
 
 
     }
