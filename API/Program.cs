@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 var connectionString =
 builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddDbContext<StoreContext>(x =>
 {
     x.UseSqlite(connectionString);
