@@ -13,6 +13,9 @@ namespace Entity.Specifications
         (!courseParams.CategoryId.HasValue || x.CategoryId == courseParams.CategoryId))
         {
             IncludeMethod(x => x.Category);
+            IncludeMethod(c => c.Requirements);
+            IncludeMethod(c => c.Learnings);
+
             ApplyPagination(courseParams.PageSize, courseParams.PageSize * (courseParams.PageIndex - 1));
 
             if (!string.IsNullOrEmpty(courseParams.Sort))
@@ -35,6 +38,8 @@ namespace Entity.Specifications
         {
             IncludeMethod(c => c.Requirements);
             IncludeMethod(c => c.Learnings);
+            IncludeMethod(c => c.Category);
+            SortMethod(x => x.Id);
         }
     }
 }
