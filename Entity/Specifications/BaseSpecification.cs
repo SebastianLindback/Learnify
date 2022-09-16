@@ -12,6 +12,7 @@ namespace Entity.Specifications
         {
 
         }
+
         public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;
@@ -21,6 +22,18 @@ namespace Entity.Specifications
 
         public List<Expression<Func<T, object>>> Include { get; } = new List<Expression<Func<T, object>>>();
 
+        public Expression<Func<T, object>> Sort { get; private set; }
+
+        public Expression<Func<T, object>> SortByDescending { get; private set; }
+
+        protected void SortMethod(Expression<Func<T, object>> sortExpression)
+        {
+            Sort = sortExpression;
+        }
+        protected void SortByDescendingMethod(Expression<Func<T, object>> sortByDescendingExpression)
+        {
+            SortByDescending = sortByDescendingExpression;
+        }
         protected void IncludeMethod(Expression<Func<T, object>> expression)
         {
             Include.Add(expression);
