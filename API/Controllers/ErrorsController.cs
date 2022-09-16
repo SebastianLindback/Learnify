@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using API.ErrorResponse;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ namespace API.Controllers
         public IActionResult NotFoundMethod()
         {
             var category = _context.Categories.Find(42);
-            if (category == null) return NotFound();
+            if (category == null) return NotFound(new ApiResponse(404));
             return Ok();
         }
         [HttpGet("serverError")]
@@ -34,7 +35,7 @@ namespace API.Controllers
         [HttpGet("badRequest")]
         public IActionResult BadRequestMethod()
         {
-            return BadRequest();
+            return BadRequest(new ApiResponse(400));
         }
         [HttpGet("badRequest/{id}")]
         public IActionResult BadIdMethod(int id)
