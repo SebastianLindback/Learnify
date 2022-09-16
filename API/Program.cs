@@ -1,4 +1,5 @@
 using API.Helpers;
+using API.Middleware;
 using Entity.Interfaces;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -43,10 +44,11 @@ using (var scope = app.Services.CreateScope())
     await context.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context, logger);
 }
-
+app.UseMiddleware<ExeptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
