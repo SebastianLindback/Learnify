@@ -50,6 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseStatusCodePagesWithReExecute("/redirect/{0}");
 //No need during local development
 //app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
