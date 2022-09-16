@@ -8,7 +8,8 @@ namespace Entity.Specifications
 {
     public class CoursesWithCategoriesSpecification : BaseSpecification<Course>
     {
-        public CoursesWithCategoriesSpecification(string sort)
+        public CoursesWithCategoriesSpecification(string? sort, int? categoryId) : base(x =>
+        !categoryId.HasValue || x.CategoryId == categoryId)
         {
             IncludeMethod(x => x.Category);
 
