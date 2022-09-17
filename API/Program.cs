@@ -21,7 +21,10 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddDbContext<StoreContext>(x =>
 {
-    x.UseSqlite(connectionString);
+    x.UseSqlite(
+        connectionString,
+    x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+    );
 });
 builder.Services.AddCors(opt =>
 {
