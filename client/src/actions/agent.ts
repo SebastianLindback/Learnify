@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Course } from '../models/course';
+import { PaginatedCourse } from '../models/paginatedCourse';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -13,7 +13,7 @@ const requests = {
 }
 
 const Courses = {
-    list : () => requests.get<Course[]>("/courses")
+    list : () => requests.get<PaginatedCourse>("/courses")
 }
 
 const agent = {

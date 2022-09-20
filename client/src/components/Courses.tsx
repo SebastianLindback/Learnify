@@ -3,9 +3,10 @@ import agent from '../actions/agent';
 import { Course } from '../models/course';
 import {Row, Col, Card} from "antd";
 import * as FaIcons from 'react-icons/fa';
+import { PaginatedCourse } from '../models/paginatedCourse';
 
 const Courses = () => {
-    const [courses, setCourse] = useState<Course[]>([]);
+    const [data, setData] = useState<PaginatedCourse>();
     const [spanVal, setSpanVal] = useState<number>();
 
     const checkWidth = ():void => {
@@ -19,19 +20,19 @@ const Courses = () => {
     },[]);
 
     useEffect(() => {
-      agent.Courses.list().then((response) => {
-        setCourse(response);
-        checkWidth();
-      });
+        agent.Courses.list().then((response) => {
+            setData(response);
+        });
     
-    }, []);
+        checkWidth();
+      }, []);
 
-    const showStars = (rating: number): [] => {
+      const showStars = (rating: number): [] => {
         const options: any = [];
         for (let i = 1; i < rating; i++) {
-          options.push(<FaIcons.FaStar />);
+          options.push(<FaIcons.FaStar key={i} />);
           if (rating - i < 1 && rating - i > 0.3) {
-            options.push(<FaIcons.FaStarHalf />);
+            options.push(<FaIcons.FaStarHalf key={i + 1} />);
           }
         }
         return options;
@@ -40,14 +41,15 @@ const Courses = () => {
     
   return (
     <div className='course'>
-        <div className="course__header">
+        <div className="course__header" >
             <h1>What to learn next?</h1>
             <h2>New courses picked just for you...</h2>
         </div>
         <Row gutter={[24,32]}>
-            {courses.map((course: Course, index: number) => {
+        {data && 
+          data.data.map((course: Course, index: number) => {
                 return (
-                    <Col className='gutter-row' span={spanVal}>
+                    <Col className='gutter-row' span={spanVal} key={index}>
                         <Card hoverable cover={<img width="100%" alt='course-cover' src={course.image}></img>}>
                             <div className="course__title">
                                 {course.title}

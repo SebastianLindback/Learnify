@@ -23,7 +23,7 @@ namespace Entity.Specifications
 
         private string _search;
 
-        public string Search
+        public string? Search
         {
             get => _search;
             set => _search = value.ToLower();
