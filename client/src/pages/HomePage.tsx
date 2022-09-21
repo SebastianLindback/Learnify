@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import agent from '../actions/agent';
 import { Course } from '../models/course';
 import {Row} from "antd";

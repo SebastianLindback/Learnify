@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import agent from '../actions/agent';
 import { Category } from '../models/category';
+import {Link} from "react-router-dom";
 
 function Categories() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -14,7 +15,11 @@ function Categories() {
   return (
     <div className="categories">
         {categories && categories.map((category: Category, index:number) => {
-            return <div className="categories__name" key={index}>{category.name}</div>
+            return (
+              <Link key={index} to={`/category/${category.id}`}>
+            <div className="categories__name" >{category.name}</div>
+            </Link>
+            )
         })}
     </div>
   )
