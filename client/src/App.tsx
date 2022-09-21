@@ -7,6 +7,7 @@ import Homepage from './pages/HomePage';
 import Login from './pages/Login';
 import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
+import DescriptionPage from './pages/DescriptionPage';
 
 function App() {
   return (<>
@@ -18,7 +19,7 @@ function App() {
       
       <Route path='/' element={<Homepage/>}/>
       
-      
+      <Route path="/course/:id" element={<DescriptionPage/>}></Route>
       <Route path="/category/:id" element={<CategoryPage/>}></Route>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/detail" element={<Detailpage/>}></Route>
