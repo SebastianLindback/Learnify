@@ -7,7 +7,7 @@ namespace Entity.Specifications
 {
     public class Basket
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string ClientId { get; set; }
 
@@ -20,7 +20,7 @@ namespace Entity.Specifications
                 Items.Add(new BasketItem { Course = course });
             }
         }
-        public void RemoveCourse(Guid courseId)
+        public void RemoveCourseItem(Guid courseId)
         {
             var course = Items.FirstOrDefault(item => item.CourseId == courseId);
             Items.Remove(course);

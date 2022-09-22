@@ -29,7 +29,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Course", b =>
@@ -86,7 +86,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Learning", b =>
@@ -106,7 +106,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Learnings");
+                    b.ToTable("Learnings", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Requirement", b =>
@@ -126,7 +126,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Requirements");
+                    b.ToTable("Requirements", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Specifications.Basket", b =>
@@ -141,7 +141,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Baskets", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Specifications.BasketItem", b =>
@@ -162,7 +162,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("BasketItem", (string)null);
                 });
 
             modelBuilder.Entity("Entity.Course", b =>
