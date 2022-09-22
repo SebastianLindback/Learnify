@@ -1,4 +1,5 @@
 using Entity;
+using Entity.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -20,6 +21,7 @@ namespace Infrastructure
         public DbSet<Learning> Learnings { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
