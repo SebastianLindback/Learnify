@@ -38,7 +38,7 @@ function ShowCourses({course} : Props) {
         return options;
       };
     const addToCart = (courseId : string) => {
-        agent.Basket.addItem(courseId).catch((error) => console.log(error));
+        agent.Baskets.addItem(courseId).catch((error) => console.log(error));
     };
     return (
         <Col className='gutter-row' span={spanVal} >

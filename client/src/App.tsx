@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
+import BasketPage from './pages/BasketPage';
 
 function App() {
   return (<>
@@ -21,6 +22,7 @@ function App() {
       <Route path='/' element={<Homepage/>}/>
       <Route path="/course/:id" element={<DescriptionPage/>}/>
       <Route path="/category/:id" element={<CategoryPage/>}/>
+      <Route path="/basket" element={<BasketPage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
     </Routes>
