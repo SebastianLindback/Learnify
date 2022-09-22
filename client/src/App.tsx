@@ -12,17 +12,17 @@ import DescriptionPage from './pages/DescriptionPage';
 function App() {
   return (<>
     <Navigation/>
+
     <Routes>
-    <Route path='/' element={<Categories/>}/>
+      <Route path='/' element={<Categories/>}/>
     </Routes>
+    
     <Routes>
-      
       <Route path='/' element={<Homepage/>}/>
-      
-      <Route path="/course/:id" element={<DescriptionPage/>}></Route>
-      <Route path="/category/:id" element={<CategoryPage/>}></Route>
-      <Route path="/login" element={<Login/>}></Route>
-      <Route path="/detail" element={<Detailpage/>}></Route>
+      <Route path="/course/:id" element={<DescriptionPage/>}/>
+      <Route path="/category/:id" element={<CategoryPage/>}/>
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/detail" element={<Detailpage/>}/>
     </Routes>
   </>);
 }
