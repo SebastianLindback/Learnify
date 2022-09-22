@@ -37,11 +37,14 @@ function ShowCourses({course} : Props) {
         }
         return options;
       };
-
+    const addToCart = (courseId : string) => {
+        agent.Basket.addItem(courseId).catch((error) => console.log(error));
+    };
     return (
         <Col className='gutter-row' span={spanVal} >
-            <Link to={`/course/${course.id}`}>
+            
                 <Card hoverable cover={<img width="100%" alt='course-cover' src={course.image}></img>}>
+                <Link to={`/course/${course.id}`}>
                     <div className="course__title">
                         {course.title}
                     </div>
@@ -52,11 +55,15 @@ function ShowCourses({course} : Props) {
                         {course.rating}
                         <span>{showStars(course.rating)}</span>
                     </div>
-                    <div className="course__price">
-                        {course.price}
+                    </Link>
+                    <div className="course__bottom">
+                        <div className="course__bottom__price">
+                            {course.price}
+                        </div>
+                        <div onClick={() => addToCart(course.id)} className="course__bottom__cart">Add to cart</div>
                     </div>
+                    
                 </Card>
-            </Link>
         </Col>
     )
 }
