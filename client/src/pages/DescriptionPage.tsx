@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import agent from '../actions/agent';
+import { useStoreContext } from '../context/StoreContext';
 import { Course, Learning, Requirement } from '../models/course'
 
 function DescriptionPage() {
     const [course, setCourse] = useState<Course>();
     const { id } = useParams<{id : string}>();
-
+    const { setBasket, basket } = useStoreContext();
+    
     useEffect(() => {
       id && agent.Courses.getById(id).then((response) => {
         setCourse(response);
       })
     
     }, [id]);
+
+    const addToCart = (courseId: string) => {
+      agent.Baskets.addItem(courseId)
+        .then((response) => setBasket(response))
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
     const getParsedDate = (strDate: any) => {
         let strSplitDate = String(strDate).split(" ");
@@ -139,10 +149,26 @@ function DescriptionPage() {
                 </div>
               </div>
               <div className="description-page__sidebar__box__button">
-                <div className="description-page__sidebar__box__button--text">
+              {
+                
+            basket?.items.find((item) => item.courseId === course?.id) !==
+            undefined ? (
+              <Link className="description-page__sidebar__box__button--cart" to="/basket">
+                  Go to Basket
+              </Link>
+            ) : (
+                <div onClick={() => {
+                course?.id && addToCart(course?.id);
+                }} className="description-page__sidebar__box__button--cart">
+                  Add to cart
+                </div>
+              
+            )}
+            <div className="description-page__sidebar__box__button--text">
                   Book now
                 </div>
-              </div>
+            </div>
+              
             </div>
             <div className="description-page__sidebar__body">
               <div className="description-page__sidebar__body__requirements">

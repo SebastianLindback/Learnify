@@ -252,58 +252,41 @@
   
         &__button {
           display: flex;
+          flex-direction: column;
           margin-top: 20px;
           justify-content: center;
-          padding: 1.6rem;
-          background-image: linear-gradient(
-            to left,
-            ($color-secondary-dark),
-            ($color-secondary-light)
-          );
-          transition: all 0.2s;
-  
-          &:hover {
-            background-image: linear-gradient(
-              to left,
-              ($color-secondary-light),
-              ($color-secondary-dark)
-            );
-          }
-  
-          &--text {
+        
+          & > * {
+            display: flex;
+            justify-content: center;
             color: #fff;
-            transition: all 0.2s;
-            &:hover {
-              color: black;
-            }
-          }
-        }
-  
-        &__coupon-form {
-          display: flex;
-          justify-content: center;
-          padding: 1.5rem;
-  
-          &__button {
-            background-color: $color-secondary-dark;
-            color: white;
-            padding: 1rem;
+            padding: 1.6rem;
+            margin: 5px 0;
+            font-weight: bold;
             cursor: pointer;
           }
-  
-          // & > * {
-          //   margin: 0 1rem;
-          // }
+        
+          &--text {
+            background-image: linear-gradient(
+              to left,
+              ($color-secondary-dark),
+              ($color-secondary-light)
+            );
+            transition: all 0.2s;
+        
+            &:hover {
+              background-image: linear-gradient(
+                to left,
+                ($color-secondary-light),
+                ($color-secondary-dark)
+              );
+            }
+          }
+        
+          &--cart {
+            background-color: $color-primary;
+          }
         }
-  
-        &__coupon-text {
-          text-align: center;
-          padding: 2rem;
-          font-size: 1.3rem;
-          color: #eb4d55;
-          cursor: pointer;
-        }
-      }
   
       &__body {
         margin-top: 40px;
@@ -359,5 +342,6 @@
           }
         }
       }
+    }
     }
   }
