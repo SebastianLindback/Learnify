@@ -4,13 +4,16 @@ import agent from "../actions/agent";
 import * as FaIcons from "react-icons/fa";
 import { Basket, CourseItem } from "../models/basket";
 import { useStoreContext } from "../context/StoreContext";
+import { Link } from "react-router-dom";
 
 const BasketPage = () => {
   const [items, setItems] = useState<Basket | null>();
 
   const { basket, removeItem } = useStoreContext();
 
-  const basketCount = basket?.items.length;
+  const basketCount = basket?.items.length || 0;
+
+  const total = basket?.items.reduce((sum, item) => sum + item.price, 0)
 
   const removeBasketItem = (courseId: string) => {
     agent.Baskets.removeItem(courseId)
@@ -49,6 +52,7 @@ const BasketPage = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      render: (price: number) => <div>${price}</div>,
     },
     {
       title: "Instructor",
@@ -75,10 +79,28 @@ const BasketPage = () => {
             basketCount! > 1 ? "courses" : "course"
           } in the Cart`}
         </h2>
-        <Table columns={columns} dataSource={items?.items} />
+        <div className="basket-page__body">
+          <div className="basket-page__body__table">
+            <Table columns={columns} dataSource={items?.items} />
+          </div>
+          {total && (
+            <div className="basket-page__body__summary">
+              <h2>Total:</h2>
+              <div className="basket-page__body__summary__total">
+                {" "}
+                $ {total ? total : 0}{" "}
+              </div>
+              <Link to="/basket">
+                <div className="basket-page__body__summary__checkout">
+                  {" "}
+                  Checkout{" "}
+                </div>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </>
-  );
-};
+  );};
 
 export default BasketPage;
