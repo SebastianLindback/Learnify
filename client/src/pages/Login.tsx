@@ -1,7 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { LoginState } from "../redux/LoginReducer";
 
 const Login = () => {
-    return <h1>Login</h1>;
+    const {visits} = useSelector((state:LoginState ) => state);
+    
+
+    return <h1>Number of visits: {visits}</h1>;
 };
 
 export default Login;

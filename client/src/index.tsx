@@ -5,14 +5,19 @@ import "./sass/main.scss";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from './context/StoreContext';
+import { configureStore } from './redux/store/ConfigureStore';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const store = configureStore();
 root.render(
   <Router>
     <StoreProvider>
+      <Provider store={store}>
       <App></App>
+      </Provider>
     </StoreProvider>
   </Router>
 );
