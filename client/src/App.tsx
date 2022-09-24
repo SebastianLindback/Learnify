@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Categories from './components/Categories';
@@ -9,8 +9,32 @@ import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
 import BasketPage from './pages/BasketPage';
+import { useStoreContext } from './context/StoreContext';
+import agent from './actions/agent';
 
 function App() {
+  const { setBasket } = useStoreContext();
+  
+  function getCookie(name: string) {
+    return (
+      document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+    );
+  }
+
+  useEffect(() => {
+    const clientId = getCookie("clientId");
+  
+    if  (clientId) {
+      agent.Baskets.get()
+      .then((response) => {
+        setBasket(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+  }, [setBasket]);
+  
   return (<>
     <Navigation/>
 
