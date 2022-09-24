@@ -29,11 +29,12 @@ export function StoreProvider({children}: PropsWithChildren<any>){
 
         const itemIndex = items.findIndex((i) => i.courseId === courseId);
 
-        itemIndex > 0  
-        ? items.splice(itemIndex,1) 
-        : setBasket((prevState) => {
-            return {...prevState!, items};
-        });
+        if (itemIndex >= 0) {
+            items.splice(itemIndex, 1);
+            setBasket((prevState) => {
+              return { ...prevState!, items };
+            });
+          }
     }
 
     return (

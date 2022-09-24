@@ -1,10 +1,13 @@
 import React, {useState} from 'react'
 import * as FaIcons from 'react-icons/fa'
 import { Link } from 'react-router-dom';
+import { useStoreContext } from '../context/StoreContext';
 
 const Navigation = () => {
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
+    const {basket} = useStoreContext();
+    const basketCount = basket?.items.length;
     return (
         <div className='nav-container'>
             <div className='nav'>
@@ -39,10 +42,12 @@ const Navigation = () => {
                         <FaIcons.FaSearch/>
                     </button>
                 </form>
-                <div className="nav__right__cart">
-                    <FaIcons.FaShoppingCart/>
-                    <span className="nav__right__cart__count"></span>
-                </div>
+                <Link to="/basket">
+                    <div className="nav__right__cart">
+                        <FaIcons.FaShoppingCart/>
+                        {basketCount! > 0 && (<span className="nav__right__cart__count">{ basketCount }</span>)}
+                    </div>
+                </Link>
             </div>
             </div>
         </div>
