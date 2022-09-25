@@ -2,11 +2,11 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import agent from "../../actions/agent";
 import { Course } from "../../models/course";
 import { PaginatedCourse } from "../../models/paginatedCourse";
-import { initialState } from "./loginSlice";
+import { RootState } from "../store/ConfigureStore";
 
-const coursesAdapter = createEntityAdapter<Course>();
+export const coursesAdapter = createEntityAdapter<Course>();
 
-const getCoursesAsync = createAsyncThunk<PaginatedCourse | undefined, void>(
+export const getCoursesAsync = createAsyncThunk<PaginatedCourse | undefined, void>(
     "course/getCoursesAsync", 
    async () => {
     try {
@@ -31,6 +31,7 @@ export const coursesSlice = createSlice({
         builder.addCase(getCoursesAsync.fulfilled, (state, action) => {
             coursesAdapter.setMany(state, action.payload!.data);
             state.status = "idle";
+            state.coursesLoaded = true;
         });
         builder.addCase(getCoursesAsync.rejected, (state) => {
             state.status = "idle";
@@ -38,3 +39,6 @@ export const coursesSlice = createSlice({
     },
     
 });
+export const coursesSelector = coursesAdapter.getSelectors(
+    (state: RootState) => state.course
+)

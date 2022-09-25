@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import agent from '../actions/agent';
+import React, {useEffect} from 'react';
 import { Course } from '../models/course';
 import {Row} from "antd";
-import { PaginatedCourse } from '../models/paginatedCourse';
 import ShowCourses from '../components/ShowCourses';
+import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
+import { coursesSelector, getCoursesAsync } from '../redux/slice/courseSlice';
 
 const HomePage = () => {
-    const [data, setData] = useState<PaginatedCourse>();
+    const courses = useAppSelector(coursesSelector.selectAll);
+    const dispatch = useAppDispatch();
+    const {coursesLoaded} = useAppSelector(state => state.course);
     
     useEffect(() => {
-        agent.Courses.list().then((response) => {
-            setData(response);
-        });
-    },[]);
+        if (!coursesLoaded) dispatch(getCoursesAsync())
+    },[coursesLoaded, dispatch]);
 
       
     
@@ -24,8 +24,8 @@ const HomePage = () => {
             <h2>New courses picked just for you...</h2>
         </div>
         <Row gutter={[24,32]}>
-        {data && 
-          data.data.map((course: Course, index: number) => {
+        {courses && 
+          courses.map((course: Course, index: number) => {
              return <ShowCourses key={index} course={course}/>
             } )}
         </Row>
@@ -34,3 +34,4 @@ const HomePage = () => {
 }
 
 export default HomePage
+
