@@ -21,7 +21,17 @@ export const addBasketItemAsync = createAsyncThunk<Basket | undefined, {courseId
     }
    }
 );
-
+export const removeBasketItemAsync = createAsyncThunk<void, {courseId : string}>(
+    "baket/removeBasketItemAsync",
+   async ({courseId}) => {
+        try {
+            await agent.Baskets.removeItem(courseId);
+        } catch (error) {
+            console.log(error);
+        }
+    
+   }
+);
 export const basketSlice = createSlice({
     name : "basket",
     initialState,
@@ -29,15 +39,7 @@ export const basketSlice = createSlice({
         setBasket: (state, action) => {
             state.basket = action.payload;
         },
-        removeItem: (state, action) => {
-            const {courseId} = action.payload;
-            const ItemIndex = state?.basket?.items.findIndex(
-                (i) => i.courseId === courseId
-            );
-            if (ItemIndex === undefined || ItemIndex === -1) return;
-            state.basket?.items.splice(ItemIndex, 1); 
-
-        },
+        
     },
     extraReducers: (builder) => {
         builder.addCase(addBasketItemAsync.pending, (state) => {
@@ -50,7 +52,24 @@ export const basketSlice = createSlice({
         builder.addCase(addBasketItemAsync.rejected, (state) => {
             state.status = "idle";
         });
+
+        builder.addCase(removeBasketItemAsync.pending, (state) => {
+            state.status = "pending"
+        });
+        builder.addCase(removeBasketItemAsync.fulfilled, (state, action) => {
+            const {courseId} = action.meta.arg;
+            const ItemIndex = state?.basket?.items.findIndex(
+                (i) => i.courseId === courseId
+            );
+            if (ItemIndex === undefined || ItemIndex === -1) return;
+            state.basket?.items.splice(ItemIndex, 1); 
+
+            state.status = "idle";
+        });
+        builder.addCase(removeBasketItemAsync.rejected, (state) => {
+            state.status = "idle";
+        });
     },
 });
 
-export const {setBasket, removeItem} = basketSlice.actions;
+export const {setBasket} = basketSlice.actions;

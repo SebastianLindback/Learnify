@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import agent from '../actions/agent';
 import { Course, Learning, Requirement } from '../models/course'
-import { setBasket } from '../redux/slice/basketSlice';
+import { addBasketItemAsync } from '../redux/slice/basketSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
 
 function DescriptionPage() {
@@ -18,13 +18,6 @@ function DescriptionPage() {
     
     }, [id]);
 
-    const addToCart = (courseId: string) => {
-      agent.Baskets.addItem(courseId)
-        .then((response) => dispatch(setBasket(response)))
-        .catch((error) => {
-          console.log(error);
-        });
-    };
 
     const getParsedDate = (strDate: any) => {
         let strSplitDate = String(strDate).split(" ");
@@ -160,7 +153,7 @@ function DescriptionPage() {
               </Link>
             ) : (
                 <div onClick={() => {
-                course?.id && addToCart(course?.id);
+                course?.id && dispatch(addBasketItemAsync({courseId : course?.id}));
                 }} className="description-page__sidebar__box__button--cart">
                   Add to cart
                 </div>
