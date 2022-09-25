@@ -9,12 +9,12 @@ import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
 import BasketPage from './pages/BasketPage';
-import { useStoreContext } from './context/StoreContext';
 import agent from './actions/agent';
+import { useAppDispatch } from './redux/store/ConfigureStore';
+import { setBasket } from './redux/slice/basketSlice';
 
 function App() {
-  const { setBasket } = useStoreContext();
-
+  const dispatch = useAppDispatch();
   function getCookie(name: string) {
     return (
       document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() ||
@@ -26,10 +26,10 @@ function App() {
     const clientId = getCookie('clientId');
     if (clientId) {
       agent.Baskets.get()
-        .then((basket) => setBasket(basket))
+        .then((basket) => dispatch(setBasket(basket)))
         .catch((error) => console.log(error));
     }
-  }, [setBasket]);
+  }, [dispatch]);
   
   return (<>
     <Navigation/>

@@ -36,7 +36,6 @@ namespace API.Controllers
 
             return basketResponse;
         }
-
         [HttpPost]
 
         public async Task<ActionResult<BasketDto>> AddItemToBasket(Guid courseId)
@@ -47,7 +46,7 @@ namespace API.Controllers
 
             var course = await _context.Courses.FindAsync(courseId);
 
-            if (course == null) return NotFound(new ApiResponse(statusCode: 404));
+            if (course == null) return NotFound(new ApiResponse(404));
 
             basket.AddCourseItem(course);
 
@@ -59,6 +58,7 @@ namespace API.Controllers
 
             return BadRequest(new ApiResponse(400, "Problem saving item to the Basket"));
         }
+
 
         [HttpDelete]
         public async Task<ActionResult> RemoveBasketItem(Guid courseId)
@@ -95,7 +95,6 @@ namespace API.Controllers
                         .FirstOrDefaultAsync(x => x.ClientId == Request.Cookies["clientId"]);
 
         }
-
     }
 
 
