@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { increment, LoginState, UPDATE_VISIT } from "../redux/LoginReducer";
+import { increment } from "../redux/slice/loginSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
 
 const Login = () => {
-    const {visits} = useSelector((state:LoginState ) => state);
+    const {visits} = useAppSelector((state) => state.login);
     
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     return <>
     <h1>Number of visits: {visits}</h1>
