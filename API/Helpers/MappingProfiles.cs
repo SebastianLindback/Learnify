@@ -31,7 +31,7 @@ namespace API.Helpers
             CreateMap<Basket, BasketDto>();
 
             CreateMap<BasketItem, BasketItemDto>()
-            .ForMember(b => b.CourseId, o => o.MapFrom(c => c.CourseId))
+            .ForMember(b => b.CourseId, o => o.MapFrom(c => c.Course.Id))
             .ForMember(b => b.Title, o => o.MapFrom(c => c.Course.Title))
             .ForMember(b => b.Price, o => o.MapFrom(c => c.Course.Price))
             .ForMember(b => b.Image, o => o.MapFrom(c => c.Course.Image))
