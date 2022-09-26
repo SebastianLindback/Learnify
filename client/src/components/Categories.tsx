@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import agent from '../actions/agent';
+import React, { useEffect } from 'react'
 import { Category } from '../models/category';
 import {Link} from "react-router-dom";
+import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
+import { categoriesSelector, getCategoriesAsync } from '../redux/slice/categorySlice';
 
 function Categories() {
-    const [categories, setCategories] = useState<Category[]>([]);
+  const categories = useAppSelector(categoriesSelector.selectAll);
+  const { categoriesLoaded } = useAppSelector((state) => state.category);
+  const dispatch = useAppDispatch();
 
-    useEffect(() => {
-      agent.Categories.list().then((response) => {
-        setCategories(response);
-    })
-    }, []);
+  useEffect(() => {
+    if (!categoriesLoaded) dispatch(getCategoriesAsync())
+  
+  }, [categoriesLoaded, dispatch]);
+  
     
   return (
     <div className="categories">
