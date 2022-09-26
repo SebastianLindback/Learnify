@@ -23,6 +23,10 @@ builder.Services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
+builder.Services.AddIdentityCore<User>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+});
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
