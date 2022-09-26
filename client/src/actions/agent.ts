@@ -19,8 +19,8 @@ const requests = {
 }
 
 const Users = {
-    login: (values: Login) => requests.post('/users/login', values),
-    register: (values: Register) => requests.post('/users/register', values),
+    login: (values: Login) => requests.post<User>('/users/login', values),
+    register: (values: Register) => requests.post<User>('/users/register', values),
   };
 
 const Courses = {

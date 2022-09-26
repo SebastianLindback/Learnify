@@ -1,34 +1,51 @@
-import { Button, Card, Form, Input, Typography } from 'antd';
+import { Button, Card, Form, Input, notification, Typography } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import { ChangeEvent, SyntheticEvent, useState } from 'react';
-import agent from '../actions/agent';
+import { useDispatch } from 'react-redux';
 import { Login } from "../models/user";
+import { signInUser } from '../redux/slice/userSlice';
+import { AppDispatch, useAppDispatch } from '../redux/store/ConfigureStore';
 
 interface Props {
     toggleRegister: () => void
 }
 
 const Signin = ({toggleRegister}: Props)  => {
-    const [values, setValues] = useState <Login>({
-      email: '',
-      password: '',
-    });
-
-  const { email, password } = values;
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
-
-  const submitUser = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6) {
-      const response = await agent.Users.login(values);
-      setValues({ ...values, email: '', password: '' });
-      console.log(response);
-    }
-  };
+    const [values, setValues] = useState<Login>({
+        email: "",
+        password: "",
+      });
+    
+      const dispatch = useAppDispatch();
+    
+      const { email, password } = values;
+    
+      const [form] = Form.useForm();
+    
+      const resetForm = () => {
+        setValues({ ...values, email: "", password: "" });
+        form.resetFields();
+      };
+    
+      const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+      };
+    
+      const submitUser = async (e: SyntheticEvent) => {
+        e.preventDefault();
+        try {
+          if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6) {
+            await dispatch(signInUser(values));
+          }
+          resetForm();
+        } catch (err: any) {
+          notification.error({
+            message: "Please check your email or password",
+          });
+          resetForm();
+        }
+      };
 
   return (
     <Card className='log-in-card'>
@@ -43,50 +60,51 @@ const Signin = ({toggleRegister}: Props)  => {
             </Typography>
         </div>
         <Content className="log-in__form">
-            <Form 
-            name='login'
-            labelCol={{span:8}}
-            wrapperCol={{span: 16}}
+        <Form
+            name="login"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
             autoComplete="off"
             onSubmitCapture={submitUser}
+            form={form}
+          >
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter a valid email!',
+                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                },
+              ]}
             >
-                <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                        {
-                        required: true,
-                        message: "Please enter a valid email!",
-                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        },
-                    ]}
-                >
-                <Input onChange={handleChange} value={email} name="email"></Input>
-                    
-                </Form.Item>
-                <Form.Item
-                label="Password"
+              <Input value={email} name="email" onChange={handleChange} />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter a valid password!',
+                  min: 6,
+                },
+              ]}
+            >
+              <Input.Password
                 name="password"
-                rules={[
-                    {
-                    required: true,
-                    message: "Please input your password!",
-                    min: 6,
-                    },
-                ]}
-                >
-                <Input.Password
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                />
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-                    <Button onClick={submitUser} type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </Form.Item>
-            </Form>
+                value={password}
+                onChange={handleChange}
+              />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+              <Button onClick={submitUser} type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </Content>
         <div onClick={toggleRegister} className="log-in-card__toggle">
             Not a user yet? Register here

@@ -1,40 +1,57 @@
-import { Button, Card, Form, Input, Typography } from "antd";
+import { Button, Card, Form, Input, notification, Typography } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import agent from "../actions/agent";
 import { Register } from "../models/user";
+import { registerUser } from "../redux/slice/userSlice";
+import { AppDispatch, useAppDispatch } from "../redux/store/ConfigureStore";
 
 interface Props {
     toggleRegister: () => void
 }
 
 const RegisterComponent = ({toggleRegister}: Props) => {
+const dispatch = useAppDispatch();
+
   const [values, setValues] = useState<Register>({
-    email:"",
-    password:"",
-    username:"",
+    email: "",
+    password: "",
+    username: "",
   });
 
-  const {email, password, username} = values;
+  const { email, password, username } = values;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setValues({...values, [name]: value});
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+  const [form] = Form.useForm();
+
+  const resetForm = () => {
+    setValues({ ...values, email: "", password: "" });
+    form.resetFields();
   };
 
   const submitUser = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (
-      email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) &&
-      password.length >= 6 &&
-      username.length >= 5
-    ) {
-        const response = await agent.Users.register(values);
-        setValues({...values, email:"", password:""});
-        console.log(response);
-        
+    try {
+      if (
+        email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) &&
+        password.length >= 6 &&
+        username.length >= 5
+      ) {
+        await dispatch(registerUser(values));
+      }
+      resetForm();
+    } catch (err: any) {
+      console.log(err);
+      notification.error({
+        message: "Please check your credentials",
+      });
+      resetForm();
     }
-  }
+  };
   return (
     <Card className='log-in-card'>
         <div className="log-in-card__intro">
@@ -54,9 +71,10 @@ const RegisterComponent = ({toggleRegister}: Props) => {
             wrapperCol={{span: 16}}
             autoComplete="off"
             onSubmitCapture={submitUser}
+            form={form}
             >
                 <Form.Item
-                label="username"
+                label="Username"
                 name="username"
                 rules={[
                         {
