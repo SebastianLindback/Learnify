@@ -12,6 +12,7 @@ import BasketPage from './pages/BasketPage';
 import agent from './actions/agent';
 import { useAppDispatch } from './redux/store/ConfigureStore';
 import { setBasket } from './redux/slice/basketSlice';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +46,7 @@ function App() {
       <Route path="/basket" element={<BasketPage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
+      <Route path="/profile" element={<Dashboard/>}/>
     </Routes>
   </>);
 }

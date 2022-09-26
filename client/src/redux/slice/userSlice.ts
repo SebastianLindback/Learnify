@@ -39,7 +39,12 @@ export const registerUser = createAsyncThunk<User, Register>(
 export const userSlice = createSlice({
     name: "user",
     initialState : initalState,
-    reducers: {},
+    reducers: {
+        signOut: (state) => {
+            state.user = null;
+            localStorage.removeItem("user")
+        }
+    },
     extraReducers: (builder) => {
         builder.addMatcher(
             isAnyOf(signInUser.fulfilled, registerUser.fulfilled),
@@ -54,3 +59,5 @@ export const userSlice = createSlice({
           );
     },
 })
+
+export const {signOut} = userSlice.actions;
