@@ -1,5 +1,6 @@
 using Entity;
 using Entity.Specifications;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,12 @@ namespace Infrastructure
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            builder.Entity<IdentityRole>()
+            .HasData(
+                new IdentityRole { Name = "Student", NormalizedName = "STUDENT" },
+                new IdentityRole { Name = "Instructor", NormalizedName = "INSTRUCTOR" }
+            );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
