@@ -3,7 +3,7 @@ import { PaginatedCourse } from '../models/paginatedCourse';
 import { Category } from '../models/category';
 import { Course } from '../models/course';
 import { Basket } from '../models/basket';
-import { Login, Register } from '../models/user';
+import { Login, Register, User } from '../models/user';
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -13,15 +13,15 @@ axios.defaults.withCredentials = true;
 
 const requests = {
     get: <T>(url:string, params?: URLSearchParams) => axios.get<T>(url, {params}).then(responseBody),
-    post: <T>(url:string, body : {}) => axios.post<T>(url).then(responseBody),
+    post: <T>(url:string, body : {}) => axios.post<T>(url, body).then(responseBody),
     put: <T>(url:string, body : {}) => axios.put<T>(url).then(responseBody),
     del: <T>(url:string) => axios.delete<T>(url).then(responseBody),
 }
 
 const Users = {
-    login: (values: Login) => requests.post("users/login", values),
-    register: (values: Register) => requests.post("users/register", values),
-}
+    login: (values: Login) => requests.post('/users/login', values),
+    register: (values: Register) => requests.post('/users/register', values),
+  };
 
 const Courses = {
     list : (params?: URLSearchParams) => requests.get<PaginatedCourse>("/courses", params),

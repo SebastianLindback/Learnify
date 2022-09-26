@@ -1,41 +1,45 @@
-import { Button, Card, Form, Input, Typography } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
-import agent from "../actions/agent";
+import { Button, Card, Form, Input, Typography } from 'antd';
+import { Content } from 'antd/lib/layout/layout';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import agent from '../actions/agent';
 import { Login } from "../models/user";
 
-const Signin = () => {
-  const [values, setValues] = useState<Login>({
-    email:"",
-    password:"",
-  });
+interface Props {
+    toggleRegister: () => void
+}
 
-  const {email, password} = values;
+const Signin = ({toggleRegister}: Props)  => {
+    const [values, setValues] = useState <Login>({
+      email: '',
+      password: '',
+    });
+
+  const { email, password } = values;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setValues({...values, [name]: value});
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
   const submitUser = async (e: SyntheticEvent) => {
-    e.preventDefault;
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6){
-        const response = await agent.Users.login(values);
-        setValues({...values, email:"", password:""});
-        console.log(response);
-        
+    e.preventDefault();
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6) {
+      const response = await agent.Users.login(values);
+      setValues({ ...values, email: '', password: '' });
+      console.log(response);
     }
-  }
+  };
+
   return (
     <Card className='log-in-card'>
         <div className="log-in-card__intro">
             <Typography>
-                <Title level={2} className="log-in-card__intro-title">
+                <Typography.Title level={2} className="log-in-card__intro-title">
                     Log in to Learnify! 
-                </Title>
-                <Text>
+                </Typography.Title>
+                <Typography.Text>
                     Enter your credentials to login
-                </Text>
+                </Typography.Text>
             </Typography>
         </div>
         <Content className="log-in__form">
@@ -52,7 +56,7 @@ const Signin = () => {
                 rules={[
                         {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Please enter a valid email!",
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         },
                     ]}
@@ -84,7 +88,7 @@ const Signin = () => {
                 </Form.Item>
             </Form>
         </Content>
-        <div className="log-in-card__toggle">
+        <div onClick={toggleRegister} className="log-in-card__toggle">
             Not a user yet? Register here
         </div>
     </Card>

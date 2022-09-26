@@ -4,7 +4,11 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import agent from "../actions/agent";
 import { Register } from "../models/user";
 
-const RegisterComponent = () => {
+interface Props {
+    toggleRegister: () => void
+}
+
+const RegisterComponent = ({toggleRegister}: Props) => {
   const [values, setValues] = useState<Register>({
     email:"",
     password:"",
@@ -19,8 +23,12 @@ const RegisterComponent = () => {
   };
 
   const submitUser = async (e: SyntheticEvent) => {
-    e.preventDefault;
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6 && username.length >= 5){
+    e.preventDefault();
+    if (
+      email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) &&
+      password.length >= 6 &&
+      username.length >= 5
+    ) {
         const response = await agent.Users.register(values);
         setValues({...values, email:"", password:""});
         console.log(response);
@@ -31,12 +39,12 @@ const RegisterComponent = () => {
     <Card className='log-in-card'>
         <div className="log-in-card__intro">
             <Typography>
-                <Title level={2} className="log-in-card__intro-title">
+                <Typography.Title level={2} className="log-in-card__intro-title">
                     Sign up to Learnify! 
-                </Title>
-                <Text>
+                </Typography.Title>
+                <Typography.Text>
                     Enter your credentials to register
-                </Text>
+                </Typography.Text>
             </Typography>
         </div>
         <Content className="log-in__form">
@@ -67,7 +75,7 @@ const RegisterComponent = () => {
                 rules={[
                         {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Please enter a valid email!",
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         },
                     ]}
@@ -99,7 +107,7 @@ const RegisterComponent = () => {
                 </Form.Item>
             </Form>
         </Content>
-        <div className="log-in-card__toggle">
+        <div onClick={toggleRegister} className="log-in-card__toggle">
             Already a user yet? Login here
         </div>
     </Card>
