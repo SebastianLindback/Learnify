@@ -1,16 +1,34 @@
 using System.Text.Json;
 using Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure
 {
     public class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext context, ILogger logger)
+        public static async Task SeedAsync(StoreContext context, ILogger logger, UserManager<User> userManager)
         {
             try
             {
+                if (!userManager.Users.Any())
+                {
+                    var student = new User
+                    {
+                        UserName = "student",
+                        Email = "student@test.com",
+                    };
+                    await userManager.CreateAsync(student, "Password@123");
+                    await userManager.AddToRoleAsync(student, "student");
 
+                    var instructor = new User
+                    {
+                        UserName = "instructor",
+                        Email = "instructor@test.com",
+                    };
+                    await userManager.CreateAsync(instructor, "Password@123");
+                    await userManager.AddToRolesAsync(instructor, new[] { "Student", "Instructor" });
+                }
                 if (!context.Categories.Any())
                 {
                     var categoryData = File.ReadAllText("../Infrastructure/SeedData/categories.json");

@@ -1,10 +1,13 @@
 using API.ErrorResponse;
 using API.Helpers;
 using API.Middleware;
+using Entity;
 using Entity.Interfaces;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,11 @@ builder.Services.AddControllers();
 
 var connectionString =
 builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddIdentityCore<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication();
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
@@ -62,9 +70,11 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+
     await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context, logger);
+    await StoreContextSeed.SeedAsync(context, logger, userManager);
 }
 app.UseMiddleware<ExeptionMiddleware>();
 // Configure the HTTP request pipeline.
