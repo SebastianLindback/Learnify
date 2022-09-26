@@ -1,14 +1,17 @@
 using Entity;
 using Entity.Specifications;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using System.Threading.Tasks;
 
 
+
 namespace Infrastructure
 {
-    public class StoreContext : DbContext
+    public class StoreContext : IdentityDbContext<User>
+
     {
         public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
