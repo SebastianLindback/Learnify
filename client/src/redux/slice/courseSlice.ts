@@ -2,7 +2,15 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import agent from "../../actions/agent";
 import { Course, CourseParams } from "../../models/course";
 import { PaginatedCourse } from "../../models/paginatedCourse";
+import { Pagination } from "../../models/pagination";
 import { RootState } from "../store/ConfigureStore";
+
+interface CourseState {
+  coursesLoaded: boolean,
+  status: string;
+  pagination: Pagination | null;
+  courseParams: CourseParams;
+}
 
 export const coursesAdapter = createEntityAdapter<Course>();
 
@@ -26,7 +34,14 @@ void,
     async (_, thunkApi) => {
     const params = getAxiosParams(thunkApi.getState().course.courseParams)
     try {
-        return await agent.Courses.list(params);
+        const response = await agent.Courses.list(params);
+        const paged = {
+          pageIndex: response.pageIndex,
+          pageSize: response.pageSize,
+          totalCount: response.count,
+        }
+        thunkApi.dispatch(setPagination(paged));
+        return response;
     } catch (error) {
         console.log(error);
     }
@@ -54,23 +69,31 @@ function getParams(){
 
 export const courseSlice = createSlice({
     name: 'course',
-    initialState: coursesAdapter.getInitialState<any>({
+    initialState: coursesAdapter.getInitialState<CourseState>({
       coursesLoaded: false,
-      status: 'idle',
+      status: "idle",
+      pagination: null,
       courseParams: getParams(),
     }),
     reducers: {
       setCourseParams: (state, action) => {
-        state.coursesLoaded = false
+        state.coursesLoaded = false;
         state.courseParams = {
           ...state.courseParams,
           ...action.payload,
           pageIndex: 1,
         }
       },
+      setPageNumber: (state, action) => {
+        state.coursesLoaded = false;
+        state.courseParams = {...state.courseParams, ...action.payload}
+      },
       setPagination: (state, action) => {
         state.pagination = action.payload
       },
+      resetCourseParams: (state, action) => {
+        state.courseParams = getParams();
+      }
     },
     extraReducers: (builder) => {
       builder.addCase(getCoursesAsync.pending, (state) => {
@@ -101,4 +124,4 @@ export const courseSlice = createSlice({
 export const coursesSelector = coursesAdapter.getSelectors(
     (state: RootState) => state.course,
 )
-export const {setCourseParams} = courseSlice.actions;
+export const {setCourseParams, setPagination, setPageNumber, resetCourseParams } = courseSlice.actions;
