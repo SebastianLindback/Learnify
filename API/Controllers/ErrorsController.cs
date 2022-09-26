@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.ErrorResponse;
 using Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -18,6 +19,14 @@ namespace API.Controllers
         {
             _context = context;
         }
+        [HttpGet("authcheck")]
+        [Authorize]
+
+        public ActionResult<string> CheckAuthorization()
+        {
+            return "You are authorized";
+        }
+
         [HttpGet("notFound")]
         public IActionResult NotFoundMethod()
         {

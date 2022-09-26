@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 
@@ -22,12 +25,25 @@ builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddIdentityCore<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                            .GetBytes(configuration["JWT:TokenKey"]))
+                    };
+                });
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
 builder.Services.AddIdentityCore<User>(opt =>
-{
-    opt.User.RequireUniqueEmail = true;
-});
+                {
+                    opt.User.RequireUniqueEmail = true;
+                });
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -95,6 +111,7 @@ app.UseStatusCodePagesWithReExecute("/redirect/{0}");
 //app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
