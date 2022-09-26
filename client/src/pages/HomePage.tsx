@@ -3,7 +3,7 @@ import { Course } from '../models/course';
 import {Card, Col, Radio, Row} from "antd";
 import ShowCourses from '../components/ShowCourses';
 import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
-import { coursesSelector, getCoursesAsync } from '../redux/slice/courseSlice';
+import { coursesSelector, getCoursesAsync, setCourseParams } from '../redux/slice/courseSlice';
 import { categoriesSelector } from '../redux/slice/categorySlice';
 import { Category } from '../models/category';
 
@@ -18,7 +18,7 @@ const sortOptions= [
 const HomePage = () => {
     const courses = useAppSelector(coursesSelector.selectAll);
     const dispatch = useAppDispatch();
-    const {coursesLoaded} = useAppSelector((state) => state.course);
+    const {coursesLoaded, courseParams} = useAppSelector((state) => state.course);
     
     useEffect(() => {
         if (!coursesLoaded) dispatch(getCoursesAsync())
@@ -42,10 +42,20 @@ const HomePage = () => {
         <Row gutter={[24,32]}>
             <Col span={4}>
               <Card title="Sorting Options">
-                <Radio.Group options={sortOptions}/>
+                <Radio.Group 
+                value={courseParams.sort}
+                options={sortOptions}
+                onChange={(e) => {dispatch(setCourseParams({sort: e.target.value}))}}
+                />
               </Card>
               <Card title="Chose Category">
-                <Radio.Group options={getCategories()}/>
+                <Radio.Group 
+                options={getCategories()}
+                value={courseParams.category}
+                onChange={(e) => {
+                  dispatch(setCourseParams({ category: e.target.value }));
+                }}
+                />
               </Card>
             </Col>
             <Col span={20}>
