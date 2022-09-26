@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using API.Dto;
 using API.ErrorResponse;
 using Entity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,15 +18,17 @@ namespace API.Controllers
     {
         private readonly ILogger<UsersController> _logger;
         private readonly UserManager<User> _userManager;
+        private readonly TokenService _tokenService;
 
-        public UsersController(ILogger<UsersController> logger, UserManager<User> userManager)
+        public UsersController(ILogger<UsersController> logger, UserManager<User> userManager, TokenService tokenService)
         {
+            _tokenService = tokenService;
             _userManager = userManager;
             _logger = logger;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
@@ -32,8 +36,11 @@ namespace API.Controllers
             {
                 return Unauthorized(new ApiResponse(401));
             }
-
-            return user;
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user)
+            };
         }
 
         [HttpPost("register")]
