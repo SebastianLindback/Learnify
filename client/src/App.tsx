@@ -9,19 +9,25 @@ import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
 import BasketPage from './pages/BasketPage';
-import { useAppDispatch } from './redux/store/ConfigureStore';
+import { useAppDispatch, useAppSelector } from './redux/store/ConfigureStore';
 import { fetchBasketAsync, setBasket } from './redux/slice/basketSlice';
 import Dashboard from './pages/Dashboard';
 import { getUser } from './redux/slice/userSlice';
+import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 
 function App() {
   const dispatch = useAppDispatch();
-  
+  const {user} = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchBasketAsync());
     dispatch(getUser());
   }, [dispatch]);
+
+  const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
+    isAuthenticated: user ? true : false,
+    authenticationPath: '/login',
+  };
   
   return (<>
     <Navigation/>
@@ -37,7 +43,7 @@ function App() {
       <Route path="/basket" element={<BasketPage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
-      <Route path="/profile" element={<Dashboard/>}/>
+      <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<Dashboard/>}/>}/>
     </Routes>
   </>);
 }
