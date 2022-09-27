@@ -10,6 +10,7 @@ namespace Infrastructure.Services
 {
     public class PaymentService
     {
+
         private readonly IConfiguration _config;
         public PaymentService(IConfiguration config)
         {
@@ -39,6 +40,7 @@ namespace Infrastructure.Services
                 };
 
                 intent = await service.CreateAsync(options);
+
             }
             else
             {
@@ -52,6 +54,5 @@ namespace Infrastructure.Services
 
             return intent;
         }
-
     }
 }
