@@ -31,7 +31,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
         const cardElement = elements.getElement(CardNumberElement);
   
         const paymentResult = await stripe.confirmCardPayment(
-          basket?.ClientSecret!,
+          basket?.clientSecret!,
           {
             payment_method: {
               card: cardElement!,

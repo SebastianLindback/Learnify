@@ -2,7 +2,7 @@ export interface Basket {
     clientId: string;
     items: CourseItem[];
     paymentIntentId?: string;
-    ClientSecret?: string;
+    clientSecret?: string;
   }
   
   export interface CourseItem {
