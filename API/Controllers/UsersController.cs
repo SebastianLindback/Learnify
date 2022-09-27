@@ -11,6 +11,10 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Infrastructure;
+using Entity.Specifications;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -19,9 +23,13 @@ namespace API.Controllers
         private readonly ILogger<UsersController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
+        private readonly StoreContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(ILogger<UsersController> logger, UserManager<User> userManager, TokenService tokenService)
+        public UsersController(ILogger<UsersController> logger, UserManager<User> userManager, TokenService tokenService, StoreContext context, IMapper mapper)
         {
+            _mapper = mapper;
+            _context = context;
             _tokenService = tokenService;
             _userManager = userManager;
             _logger = logger;
@@ -36,11 +44,38 @@ namespace API.Controllers
             {
                 return Unauthorized(new ApiResponse(401));
             }
+
+            var userBasket = await ExtractBasket(user.UserName);
+            var basket = await ExtractBasket(Request.Cookies["clientId"]);
+
+            if (basket != null)
+            {
+                if (userBasket != null) _context.Baskets.Remove(userBasket);
+                basket.ClientId = user.UserName;
+                Response.Cookies.Delete("clientId");
+                await _context.SaveChangesAsync();
+            }
             return new UserDto
             {
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket)
             };
+        }
+
+        private async Task<Basket> ExtractBasket(string clientId)
+        {
+            if (string.IsNullOrEmpty(clientId))
+            {
+                Response.Cookies.Delete("clientId");
+                return null;
+            }
+            return await _context.Baskets
+                        .Include(b => b.Items)
+                        .ThenInclude(i => i.Course)
+                        .OrderBy(i => i.Id)
+                        .FirstOrDefaultAsync(x => x.ClientId == Request.Cookies["clientId"]);
+
         }
 
         [HttpPost("register")]
