@@ -14,6 +14,7 @@ import { fetchBasketAsync, setBasket } from './redux/slice/basketSlice';
 import Dashboard from './pages/Dashboard';
 import { getUser } from './redux/slice/userSlice';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
       <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<Dashboard/>}/>}/>
+      <Route path="/checkout" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CheckoutPage/>}/>}/>
     </Routes>
   </>);
 }
