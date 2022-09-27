@@ -45,6 +45,7 @@ builder.Services.AddIdentityCore<User>(opt =>
                     opt.User.RequireUniqueEmail = true;
                 });
 builder.Services.AddAutoMapper(typeof(MappingProfiles));
+builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
