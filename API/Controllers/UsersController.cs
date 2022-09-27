@@ -15,6 +15,7 @@ using Infrastructure;
 using Entity.Specifications;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -62,7 +63,30 @@ namespace API.Controllers
                 Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket)
             };
         }
+        [Authorize]
+        [HttpPost("purchaseCourses")]
+        public async Task<ActionResult> AddCourses()
+        {
+            var basket = await ExtractBasket(User.Identity.Name);
 
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            foreach (BasketItem course in basket.Items)
+            {
+                var userCourse = new UserCourse
+                {
+                    Courseid = course.CourseId,
+                    UserId = user.Id
+                };
+                _context.UserCourses.Add(userCourse);
+            }
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok();
+
+            return BadRequest(new ApiResponse(400, "Problem adding Course"));
+        }
         private async Task<Basket> ExtractBasket(string clientId)
         {
             if (string.IsNullOrEmpty(clientId))

@@ -29,35 +29,41 @@ import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
       if (!stripe || !elements) return;
       try {
         const cardElement = elements.getElement(CardNumberElement);
-        const paymentResult = await stripe.confirmCardPayment(basket?.ClientSecret!,{ 
-          payment_method: {
-            card: cardElement!,
-            billing_details: {
-              name: cardName
-            }
+  
+        const paymentResult = await stripe.confirmCardPayment(
+          basket?.ClientSecret!,
+          {
+            payment_method: {
+              card: cardElement!,
+              billing_details: {
+                name: cardName,
+              },
+            },
           }
-        });
-
-        if(paymentResult.paymentIntent?.status === "succeeded"){
+        );
+        console.log(paymentResult);
+        if (paymentResult.paymentIntent?.status === "succeeded") {
+          await agent.Users.addCourse();
           notification.success({
-            message: "Your payment is successfull",
+            message: "Your payment is successful",
           });
           dispatch(removeBasket());
           await agent.Baskets.clear();
           setTimeout(() => {
             navigate("/profile");
           }, 1000);
-        }
-        else {
-          notification.success({
+        } else {
+          notification.error({
             message: paymentResult.error?.message!,
           });
+          setTimeout(() => {
+            navigate("/profile");
+          }, 500);
         }
       } catch (error) {
         console.log(error);
-        
       }
-    }
+    };
   
     const [form] = Form.useForm();
   
@@ -102,7 +108,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
           </Card>
         </div>
         <div className="checkout__summary">
-          <CheckoutSummary />
+          <CheckoutSummary stripe={stripe} handleSubmit={handlePayment}/>
         </div>
       </div>
     );

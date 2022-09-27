@@ -8,6 +8,6 @@ namespace Entity
 {
     public class User : IdentityUser
     {
-
+        public ICollection<UserCourse> UserCourses { get; set; }
     }
 }
