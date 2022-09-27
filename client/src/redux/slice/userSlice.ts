@@ -43,6 +43,12 @@ export const userSlice = createSlice({
         signOut: (state) => {
             state.user = null;
             localStorage.removeItem("user")
+        },
+        getUser: (state) => {
+          const user = localStorage.getItem("user");
+          if (user){
+            state.user = JSON.parse(user);
+          }
         }
     },
     extraReducers: (builder) => {
@@ -60,4 +66,4 @@ export const userSlice = createSlice({
     },
 })
 
-export const {signOut} = userSlice.actions;
+export const {signOut, getUser} = userSlice.actions;

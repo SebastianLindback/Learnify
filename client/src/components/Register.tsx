@@ -2,6 +2,7 @@ import { Button, Card, Form, Input, notification, Typography } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import agent from "../actions/agent";
 import { Register } from "../models/user";
 import { registerUser } from "../redux/slice/userSlice";
@@ -27,7 +28,8 @@ const dispatch = useAppDispatch();
     setValues({ ...values, [name]: value });
   };
   const [form] = Form.useForm();
-
+  const navigation = useNavigate();
+      
   const resetForm = () => {
     setValues({ ...values, email: "", password: "" });
     form.resetFields();
@@ -43,6 +45,7 @@ const dispatch = useAppDispatch();
       ) {
         await dispatch(registerUser(values));
       }
+      navigation("/profile");
       resetForm();
     } catch (err: any) {
       console.log(err);
