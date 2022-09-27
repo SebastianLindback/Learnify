@@ -37,6 +37,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
+
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
@@ -48,6 +49,7 @@ namespace API.Controllers
 
             var userBasket = await ExtractBasket(user.UserName);
             var basket = await ExtractBasket(Request.Cookies["clientId"]);
+            var courses = _context.UserCourses.AsQueryable();
 
             if (basket != null)
             {
@@ -56,13 +58,42 @@ namespace API.Controllers
                 Response.Cookies.Delete("clientId");
                 await _context.SaveChangesAsync();
             }
+
             return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket)
+                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket),
+                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()
             };
         }
+
+        [HttpPost("register")]
+
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        {
+            var user = new User { UserName = registerDto.Username, Email = registerDto.Email };
+
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                return ValidationProblem();
+            }
+
+            await _userManager.AddToRoleAsync(user, "Student");
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user)
+            };
+        }
+
         [Authorize]
         [HttpPost("purchaseCourses")]
         public async Task<ActionResult> AddCourses()
@@ -86,7 +117,9 @@ namespace API.Controllers
             if (result) return Ok();
 
             return BadRequest(new ApiResponse(400, "Problem adding Course"));
+
         }
+
         [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -105,6 +138,8 @@ namespace API.Controllers
                 Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()
             };
         }
+
+
         private async Task<Basket> ExtractBasket(string clientId)
         {
             if (string.IsNullOrEmpty(clientId))
@@ -117,28 +152,7 @@ namespace API.Controllers
                         .ThenInclude(i => i.Course)
                         .OrderBy(i => i.Id)
                         .FirstOrDefaultAsync(x => x.ClientId == clientId);
-
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterDto registerDto)
-        {
-            var user = new User { UserName = registerDto.Username, Email = registerDto.Email };
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-
-                return ValidationProblem();
-            }
-
-            await _userManager.AddToRoleAsync(user, "Student");
-
-            return user;
-        }
     }
 }

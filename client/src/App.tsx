@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Categories from './components/Categories';
@@ -15,15 +15,33 @@ import Dashboard from './pages/Dashboard';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 import CheckoutPage from './pages/CheckoutPage';
 import { fetchCurrentUser } from './redux/slice/userSlice';
+import Loading from './components/loading';
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
+
+  const appInit = useCallback(
+    async () => {
+        try {
+          await dispatch(fetchBasketAsync());
+          await dispatch(fetchCurrentUser());
+        } catch (error) {
+          console.log(error);
+          
+        }
+      
+    },
+    [dispatch],
+  )
+  
   const {user} = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(fetchBasketAsync());
-    dispatch(fetchCurrentUser());
+    appInit().then(() => setLoading(false));
   }, [dispatch]);
+
+  if(loading) return <Loading/>
 
   const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
     isAuthenticated: user ? true : false,
