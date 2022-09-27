@@ -44,6 +44,7 @@ const Baskets = {
     get: () => requests.get<Basket>(`basket`),
     addItem: (courseId :string) => requests.post<Basket>(`basket?courseId=${courseId}`, {}),
     removeItem: (courseId :string) => requests.del(`basket?courseId=${courseId}`),
+    clear: () => requests.del("basket/clear"),
 }
 const Payments = {
     paymentIntent: () => requests.post<Basket>("payments", {}),

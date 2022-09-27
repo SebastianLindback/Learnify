@@ -8,6 +8,7 @@ import {
   import { Card, Form, Input, message, notification } from "antd";
   import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useNavigate } from "react-router";
+import agent from "../actions/agent";
 import { removeBasket } from "../redux/slice/basketSlice";
 import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
   import CheckoutSummary from "./CheckoutSummary";
@@ -42,6 +43,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store/ConfigureStore";
             message: "Your payment is successfull",
           });
           dispatch(removeBasket());
+          await agent.Baskets.clear();
           setTimeout(() => {
             navigate("/profile");
           }, 1000);
