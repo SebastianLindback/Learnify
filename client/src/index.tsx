@@ -7,6 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from './context/StoreContext';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/ConfigureStore';
+import { axiosInterceptor } from './actions/agent';
+
+axiosInterceptor(store);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
