@@ -2,6 +2,7 @@ import { Dropdown, Menu } from 'antd'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { removeBasket } from '../redux/slice/basketSlice';
 import { signOut } from '../redux/slice/userSlice';
 
 function UserMenu() {
@@ -9,6 +10,7 @@ function UserMenu() {
     const navigate = useNavigate()
     const signout = () => {
         dispatch(signOut());
+        dispatch(removeBasket());
         navigate("/");
     }
     const menu = (

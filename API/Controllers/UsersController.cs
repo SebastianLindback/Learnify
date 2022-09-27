@@ -74,7 +74,7 @@ namespace API.Controllers
                         .Include(b => b.Items)
                         .ThenInclude(i => i.Course)
                         .OrderBy(i => i.Id)
-                        .FirstOrDefaultAsync(x => x.ClientId == Request.Cookies["clientId"]);
+                        .FirstOrDefaultAsync(x => x.ClientId == clientId);
 
         }
 
