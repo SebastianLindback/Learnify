@@ -12,9 +12,9 @@ import BasketPage from './pages/BasketPage';
 import { useAppDispatch, useAppSelector } from './redux/store/ConfigureStore';
 import { fetchBasketAsync, setBasket } from './redux/slice/basketSlice';
 import Dashboard from './pages/Dashboard';
-import { getUser } from './redux/slice/userSlice';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 import CheckoutPage from './pages/CheckoutPage';
+import { fetchCurrentUser } from './redux/slice/userSlice';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchBasketAsync());
-    dispatch(getUser());
+    dispatch(fetchCurrentUser());
   }, [dispatch]);
 
   const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {

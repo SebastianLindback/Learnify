@@ -87,6 +87,24 @@ namespace API.Controllers
 
             return BadRequest(new ApiResponse(400, "Problem adding Course"));
         }
+        [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var basket = await ExtractBasket(User.Identity.Name);
+
+            var courses = _context.UserCourses.AsQueryable();
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user),
+                Basket = _mapper.Map<Basket, BasketDto>(basket),
+                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()
+            };
+        }
         private async Task<Basket> ExtractBasket(string clientId)
         {
             if (string.IsNullOrEmpty(clientId))
