@@ -11,7 +11,7 @@ import DescriptionPage from './pages/DescriptionPage';
 import BasketPage from './pages/BasketPage';
 import { useAppDispatch, useAppSelector } from './redux/store/ConfigureStore';
 import { fetchBasketAsync, setBasket } from './redux/slice/basketSlice';
-import Dashboard from './pages/Dashboard';
+import DashboardPage from './pages/DashboardPage';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 import CheckoutPage from './pages/CheckoutPage';
 import { fetchCurrentUser } from './redux/slice/userSlice';
@@ -62,7 +62,7 @@ function App() {
       <Route path="/basket" element={<BasketPage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
-      <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<Dashboard/>}/>}/>
+      <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<DashboardPage/>}/>}/>
       <Route path="/checkout" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CheckoutPage/>}/>}/>
     </Routes>
   </>);
