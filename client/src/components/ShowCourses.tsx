@@ -14,6 +14,7 @@ const ShowCourses = ({ course }: Props) => {
   const [spanVal, setSpanVal] = useState<number>();
   const {basket} = useAppSelector(state => state.basket);
   const {userCourses} = useAppSelector(state => state.user);
+  const {currentLecture} = useAppSelector(state => state.lecture);
   const dispatch = useAppDispatch();
 
   const checkWidth = (): void => {
@@ -65,7 +66,9 @@ const ShowCourses = ({ course }: Props) => {
           <div className="course__bottom__price">{course.price}</div>
             {userCourses?.find((item) => item.id === course.id) !==
             undefined ? (
-                <div className="course__bottom__cart">Go to Course</div>
+                <Link to={`/learn/${course.id}/${currentLecture}`}>
+                  <div className="course__bottom__cart">Go to Course</div>
+                </Link>
             ) : basket?.items.find((item) => item.courseId === course.id) !==
               undefined ? (
               <Link to="/basket">
