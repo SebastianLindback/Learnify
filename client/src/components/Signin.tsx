@@ -42,9 +42,8 @@ const Signin = ({toggleRegister}: Props)  => {
           }
           resetForm();
         } catch (err: any) {
-          notification.error({
-            message: "Please check your email or password",
-          });
+          console.log(err);
+          
           resetForm();
         }
       };

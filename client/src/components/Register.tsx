@@ -48,10 +48,13 @@ const dispatch = useAppDispatch();
       navigation("/profile");
       resetForm();
     } catch (err: any) {
-      console.log(err);
-      notification.error({
-        message: "Please check your credentials",
-      });
+      if(err.error) {
+        for (const val of err.error) {
+          notification.error({
+            message: val,
+          });
+        }
+      }
       resetForm();
     }
   };
