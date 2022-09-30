@@ -25,7 +25,12 @@ export const axiosInterceptor = (store: Store) => {
   axios.interceptors.response.use((response: any) => {
     return response;
   },
-  (error : AxiosError) => {    
+  (error : AxiosError<{
+    errors: string[];
+    errorMessage: string;
+    data:string[];
+    status: string;
+}>) => {  
     const { data, status } = error.response!;
     switch (status) {
       case 400:
