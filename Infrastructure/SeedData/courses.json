@@ -11,7 +11,8 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Level": "Beginner",
-    "Language": "English"
+    "Language": "English",
+    "Published": true
   },
   {
     "Id": "2BBC0917-2BAE-4CC7-9675-95D0AAC03188",
@@ -25,6 +26,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "CategoryId": 1
   },
   {
@@ -39,6 +41,7 @@
     "Students": 20,
     "Level": "Beginner",
     "Language": "English",
+    "Published": true,
     "CategoryId": 1
   },
   {
@@ -52,6 +55,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   },
@@ -66,6 +70,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   },
@@ -80,6 +85,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   },
@@ -94,6 +100,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   },
@@ -108,6 +115,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   },
@@ -122,6 +130,7 @@
     "Description": "This is the description placeholder",
     "Students": 20,
     "Language": "English",
+    "Published": true,
     "Level": "Beginner",
     "CategoryId": 1
   }
