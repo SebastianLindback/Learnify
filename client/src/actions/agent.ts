@@ -5,11 +5,8 @@ import { Course } from '../models/course';
 import { Basket } from '../models/basket';
 import { Login, Register, User } from '../models/user';
 import { Store } from 'redux';
-<<<<<<< Updated upstream
 import { Lecture } from '../models/lecture';
-=======
 import { notification } from 'antd';
->>>>>>> Stashed changes
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
