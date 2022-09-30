@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220929173042_LecturesTableAdded")]
+    partial class LecturesTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -284,9 +286,6 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("Courseid")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("CurrentLecture")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("UserId", "Courseid");
 
                     b.HasIndex("Courseid");
@@ -322,15 +321,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c785d944-83c3-491b-90ec-8f00999b4ff3",
-                            ConcurrencyStamp = "62d2a167-dade-41ee-a04e-afcc4b3b57be",
+                            Id = "81faf695-d055-416c-b441-63bb142b6ff8",
+                            ConcurrencyStamp = "c05a27ce-6a6e-47aa-b430-d45963900b38",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "5a2b9d6f-4603-41b8-b65f-4fd8737afbc9",
-                            ConcurrencyStamp = "9036e4ac-7b00-4e66-b605-dedb5ebc9641",
+                            Id = "12063f93-b74a-4668-affe-6ebbf1906f12",
+                            ConcurrencyStamp = "91b674cf-6070-49eb-b309-5c01bda10e1b",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         });
