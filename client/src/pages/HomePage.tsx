@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
 import { coursesSelector, getCoursesAsync, setCourseParams, setPageNumber } from '../redux/slice/courseSlice';
 import { categoriesSelector } from '../redux/slice/categorySlice';
 import { Category } from '../models/category';
+import Categories from '../components/Categories';
 
 const sortOptions= [
   {value: "title", label: "Alphabetical"},
@@ -36,7 +37,8 @@ const HomePage = () => {
       dispatch(setPageNumber({ pageIndex: pageNumber }));
     }
 
-    return (
+    return (<>
+    <Categories/>
       <div className="course">
         <div className="course__header">
           <h1>What to learn Next?</h1>
@@ -83,7 +85,7 @@ const HomePage = () => {
           </Col>
         </Row>
       </div>
-    );
+      </>);
   };
 
 export default HomePage

@@ -51,9 +51,7 @@ function App() {
   return (<>
     <Navigation/>
 
-    <Routes>
-      <Route path='/' element={<Categories/>}/>
-    </Routes>
+   
     
     <Routes>
       <Route path='/' element={<Homepage/>}/>
