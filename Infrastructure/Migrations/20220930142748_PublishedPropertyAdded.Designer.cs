@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220930142748_PublishedPropertyAdded")]
+    partial class PublishedPropertyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -325,15 +327,15 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "07f7ddf3-4dc4-40b4-91bc-f92f6e79971b",
-                            ConcurrencyStamp = "b537a5c7-389d-4ef5-92b4-e1c68b7b18c9",
+                            Id = "9546dad1-5662-4aa7-8a95-d94bac6aa888",
+                            ConcurrencyStamp = "9a506187-4988-4857-b960-aa8d95774f17",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "91978b5e-5541-4c7d-8b0f-a52fcd50aa18",
-                            ConcurrencyStamp = "d5d530ff-b8a1-434f-8bf7-929a909d4198",
+                            Id = "b63d4fb2-046a-4c0b-8ce2-515e89565635",
+                            ConcurrencyStamp = "f91564c6-1125-43e7-922b-b2d0b246fd56",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
                         });
