@@ -6,6 +6,6 @@ namespace API.ErrorResponse
         {
         }
 
-        public IEnumerable<string> Errors { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
     }
 }
