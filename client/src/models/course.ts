@@ -33,3 +33,12 @@ export interface Course {
     pageSize: number,
     category?: number,
   }
+  export interface RegisterCourse {
+    title: string;
+    subTitle: string;
+    price: number;
+    description: string;
+    language: string;
+    categoryId: number;
+    level: string;
+  }

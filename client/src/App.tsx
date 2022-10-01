@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import Categories from './components/Categories';
 import Detailpage from './pages/DetailPage';
 import Homepage from './pages/HomePage';
 import Login from './pages/Login';
@@ -10,7 +9,7 @@ import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
 import BasketPage from './pages/BasketPage';
 import { useAppDispatch, useAppSelector } from './redux/store/ConfigureStore';
-import { fetchBasketAsync, setBasket } from './redux/slice/basketSlice';
+import { fetchBasketAsync } from './redux/slice/basketSlice';
 import DashboardPage from './pages/DashboardPage';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 import CheckoutPage from './pages/CheckoutPage';
@@ -18,6 +17,8 @@ import { fetchCurrentUser } from './redux/slice/userSlice';
 import Loading from './components/loading';
 import CoursePage from './pages/CoursePage';
 import InstructorPage from './pages/InstructorPage';
+import CreateCoursePage from './pages/CreateCoursePage';
+import { getCategoriesAsync } from './redux/slice/categorySlice';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,7 @@ function App() {
         try {
           await dispatch(fetchBasketAsync());
           await dispatch(fetchCurrentUser());
+          await dispatch(getCategoriesAsync());
         } catch (error) {
           console.log(error);
           
@@ -66,6 +68,7 @@ function App() {
       <Route path="/learn/:course/:lecture" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CoursePage/>}/>}/>
       <Route path="/checkout" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CheckoutPage/>}/>}/>
       <Route path="/instructor" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<InstructorPage/>}/>}/>
+      <Route path="/instructor/course" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CreateCoursePage/>}/>}/>
     </Routes>
   </>);
 }
