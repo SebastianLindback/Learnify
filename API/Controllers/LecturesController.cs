@@ -1,17 +1,6 @@
-using System.Xml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Infrastructure;
 using API.Dto;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Entity;
-using API.ErrorResponse;
 
 namespace API.Controllers
 {
