@@ -6,10 +6,10 @@ namespace Entity.Specifications
 
         public Guid CourseId { get; set; }
 
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
         public int BasketId { get; set; }
 
-        public Basket Basket { get; set; }
+        public Basket? Basket { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Entity.Specifications
     {
         public int Id { get; set; }
 
-        public string ClientId { get; set; }
+        public string? ClientId { get; set; }
 
         public string? PaymentIntentId { get; set; }
 
@@ -26,7 +26,7 @@ namespace Entity.Specifications
         }
         public void RemoveCourseItem(Guid courseId)
         {
-            var course = Items.FirstOrDefault(item => item.CourseId == courseId);
+            var course = Items.FirstOrDefault(item => item.CourseId == courseId)!;
             Items.Remove(course);
         }
 

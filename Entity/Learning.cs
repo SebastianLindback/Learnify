@@ -9,6 +9,6 @@ namespace Entity
 
         public Guid CourseId { get; set; }
 
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
     }
 }
