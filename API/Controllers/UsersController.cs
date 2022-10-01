@@ -34,7 +34,7 @@ namespace API.Controllers
             }
 
             var userBasket = await ExtractBasket(user.UserName);
-            var basket = await ExtractBasket(Request.Cookies["clientId"]);
+            var basket = await ExtractBasket(Request.Cookies["clientId"]!);
             var courses = _context.UserCourses.AsQueryable();
 
             if (basket != null)
@@ -49,8 +49,8 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket),
-                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()
+                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket!),
+                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()!
             };
         }
 
@@ -85,7 +85,7 @@ namespace API.Controllers
 
         public async Task<ActionResult> AddRole()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             await _userManager.AddToRoleAsync(user, "Instructor");
             return Ok();
@@ -95,9 +95,9 @@ namespace API.Controllers
         [HttpPost("purchaseCourses")]
         public async Task<ActionResult> AddCourses()
         {
-            var basket = await ExtractBasket(User.Identity.Name);
+            var basket = await ExtractBasket(User?.Identity?.Name!);
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             foreach (BasketItem course in basket.Items)
             {
@@ -121,9 +121,9 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
-            var basket = await ExtractBasket(User.Identity.Name);
+            var basket = await ExtractBasket(User?.Identity?.Name!);
 
             var courses = _context.UserCourses.AsQueryable();
 
@@ -132,7 +132,7 @@ namespace API.Controllers
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = _mapper.Map<Basket, BasketDto>(basket),
-                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()
+                Courses = courses.Where(x => x.UserId == user.Id).Select(u => u.Course).ToList()!
             };
         }
 
@@ -141,7 +141,7 @@ namespace API.Controllers
 
         public List<Course> unpublishedCourses()
         {
-            var courses = _context.Courses.Where(x => x.Instructor == User.Identity.Name).Where(x => x.Published == false).ToList();
+            var courses = _context.Courses.Where(x => x.Instructor == User!.Identity!.Name).Where(x => x.Published == false).ToList();
 
             return courses;
         }
@@ -153,11 +153,13 @@ namespace API.Controllers
                 Response.Cookies.Delete("clientId");
                 return null;
             }
-            return await _context.Baskets
+            var basket = await _context.Baskets
                         .Include(b => b.Items)
                         .ThenInclude(i => i.Course)
                         .OrderBy(i => i.Id)
                         .FirstOrDefaultAsync(x => x.ClientId == clientId);
+            return basket!;
+
         }
 
     }

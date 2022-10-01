@@ -21,7 +21,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<BasketDto>> PaymentIntentAsync()
         {
-            var basket = await ExtractBasket(User.Identity.Name);
+            var basket = await ExtractBasket(User?.Identity?.Name!);
 
             if (basket == null) return NotFound(new ApiResponse(404));
 
@@ -49,11 +49,13 @@ namespace API.Controllers
                 Response.Cookies.Delete("clientId");
                 return null;
             }
-            return await _context.Baskets
+            var basket = await _context.Baskets
                         .Include(b => b.Items)
                         .ThenInclude(i => i.Course)
                         .OrderBy(i => i.Id)
                         .FirstOrDefaultAsync(x => x.ClientId == clientId);
+            return basket!;
+
         }
 
 

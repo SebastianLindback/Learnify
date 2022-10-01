@@ -45,7 +45,7 @@ namespace API.Controllers
 
         public async Task<ActionResult<string>> CreateCourse([FromBody] Course course)
         {
-            course.Instructor = User.Identity.Name;
+            course.Instructor = User?.Identity?.Name;
 
             _context.Courses.Add(course);
 

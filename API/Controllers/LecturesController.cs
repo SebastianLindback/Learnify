@@ -25,15 +25,15 @@ namespace API.Controllers
         {
             var course = await _context.Courses.FindAsync(courseId);
 
-            var user = await _userManager.FindByNameAsync(userName: User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(userName: User?.Identity?.Name);
 
-            var sections = await _context.Sections.Where(x => x.CourseId == course.Id).Include(c => c.Lectures).ToListAsync();
+            var sections = await _context.Sections.Where(x => x.CourseId == course!.Id).Include(c => c.Lectures).ToListAsync();
 
             var userCourse = _context.UserCourses.Where(x => x.User == user).Where(x => x.Course == course).First();
 
             return new UserLectureDto
             {
-                CourseName = course.Title,
+                CourseName = course!.Title!,
                 Sections = _mapper.Map<List<Section>, List<SectionDto>>(sections),
                 CurrentLecture = userCourse.CurrentLecture
             };
@@ -46,7 +46,7 @@ namespace API.Controllers
         public async Task<ActionResult> UpdateCurrentLecture([FromBody] UpdateLectureDto updateLecture)
         {
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
 
             var userCourse = _context.UserCourses.Where(x => x.User == user).Where(x => x.Courseid == updateLecture.CourseId).First();
 

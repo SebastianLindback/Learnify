@@ -103,16 +103,18 @@ namespace API.Controllers
                 Response.Cookies.Delete("clientId");
                 return null;
             }
-            return await _context.Baskets
+            var basket = await _context.Baskets
                         .Include(b => b.Items)
                         .ThenInclude(i => i.Course)
                         .OrderBy(i => i.Id)
                         .FirstOrDefaultAsync(x => x.ClientId == clientId);
+            return basket!;
 
         }
         private string GetClientId()
         {
-            return User.Identity?.Name ?? Request.Cookies["clientId"];
+            var clientId = User.Identity?.Name ?? Request.Cookies["clientId"];
+            return clientId!;
         }
     }
 

@@ -30,7 +30,7 @@ namespace API.Controllers
         {
             var category = _context.Categories.Find(42);
 
-            return Ok(category.ToString());
+            return Ok(category?.ToString());
         }
         [HttpGet("badRequest")]
         public IActionResult BadRequestMethod()
