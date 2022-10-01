@@ -19,6 +19,7 @@ import CoursePage from './pages/CoursePage';
 import InstructorPage from './pages/InstructorPage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import { getCategoriesAsync } from './redux/slice/categorySlice';
+import SectionPage from './pages/SectionPage';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -64,11 +65,13 @@ function App() {
       <Route path="/basket" element={<BasketPage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
+
       <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<DashboardPage/>}/>}/>
       <Route path="/learn/:course/:lecture" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CoursePage/>}/>}/>
       <Route path="/checkout" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CheckoutPage/>}/>}/>
       <Route path="/instructor" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<InstructorPage/>}/>}/>
       <Route path="/instructor/course" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<CreateCoursePage/>}/>}/>
+      <Route path="/:course/lectures" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<SectionPage/>}/>}/>
     </Routes>
   </>);
 }
