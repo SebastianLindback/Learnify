@@ -26,7 +26,7 @@ namespace Infrastructure.Services
 
             var intent = new PaymentIntent();
 
-            var total = basket.Items.Sum(item => item.Course.Price);
+            var total = basket.Items.Sum(item => item.Course!.Price);
 
             long updatedTotal = (long)(total * 100);
 

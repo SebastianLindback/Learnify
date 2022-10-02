@@ -61,8 +61,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.InvalidModelStateResponseFactory = actionContext =>
     {
         var errors = actionContext.ModelState
-        .Where(e => e.Value.Errors.Count > 0)
-        .SelectMany(x => x.Value.Errors)
+        .Where(e => e.Value!.Errors.Count > 0)
+        .SelectMany(x => x.Value!.Errors)
         .Select(x => x.ErrorMessage).ToArray();
 
         var errorResponse = new ApiValidationErrorResponse

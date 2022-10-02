@@ -9,10 +9,10 @@ namespace Entity.Specifications
     public class CoursesWithCategoriesSpecification : BaseSpecification<Course>
     {
         public CoursesWithCategoriesSpecification(CourseParams courseParams) : base(x =>
-        (string.IsNullOrEmpty(courseParams.Search) || x.Title.ToLower().Contains(courseParams.Search)) &&
+        (string.IsNullOrEmpty(courseParams.Search) || x.Title!.ToLower().Contains(courseParams.Search)) &&
         (!courseParams.CategoryId.HasValue || x.CategoryId == courseParams.CategoryId) && (x.Published == true))
         {
-            IncludeMethod(x => x.Category);
+            IncludeMethod(x => x.Category!);
             IncludeMethod(c => c.Requirements);
             IncludeMethod(c => c.Learnings);
 
@@ -29,7 +29,7 @@ namespace Entity.Specifications
                         SortByDescendingMethod(c => c.Price);
                         break;
                     default:
-                        SortMethod(c => c.Title);
+                        SortMethod(c => c.Title!);
                         break;
                 }
             }
@@ -38,7 +38,7 @@ namespace Entity.Specifications
         {
             IncludeMethod(c => c.Requirements);
             IncludeMethod(c => c.Learnings);
-            IncludeMethod(c => c.Category);
+            IncludeMethod(c => c.Category!);
             SortMethod(x => x.Id);
         }
     }

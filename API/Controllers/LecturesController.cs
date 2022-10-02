@@ -74,7 +74,7 @@ namespace API.Controllers
 
             _context.Sections.Add(section);
 
-            foreach (var item in sectionDto.Lectures)
+            foreach (var item in sectionDto.Lectures!)
             {
                 var lecture = new Lecture
                 {

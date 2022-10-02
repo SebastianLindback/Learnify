@@ -26,10 +26,12 @@ namespace Infrastructure
 
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            return await _context
+            var category = await _context
             .Categories
             .Include(c => c.Courses)
             .FirstOrDefaultAsync(x => x.Id == id);
+
+            return category!;
 
         }
     }

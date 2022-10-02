@@ -34,7 +34,7 @@ namespace Infrastructure
                     var categoryData = File.ReadAllText("../Infrastructure/SeedData/categories.json");
                     var categories = JsonSerializer.Deserialize<List<Category>>(categoryData);
 
-                    foreach (var category in categories)
+                    foreach (var category in categories!)
                     {
                         context.Categories.Add(category);
                     }
@@ -46,7 +46,7 @@ namespace Infrastructure
                     var courseData = File.ReadAllText("../Infrastructure/SeedData/courses.json");
                     var courses = JsonSerializer.Deserialize<List<Course>>(courseData);
 
-                    foreach (var course in courses)
+                    foreach (var course in courses!)
                     {
                         context.Courses.Add(course);
                     }
@@ -58,7 +58,7 @@ namespace Infrastructure
                     var requirementData = File.ReadAllText("../Infrastructure/SeedData/requirements.json");
                     var requirements = JsonSerializer.Deserialize<List<Requirement>>(requirementData);
 
-                    foreach (var requirement in requirements)
+                    foreach (var requirement in requirements!)
                     {
 
                         context.Requirements.Add(requirement);
@@ -71,7 +71,7 @@ namespace Infrastructure
                     var learningData = File.ReadAllText("../Infrastructure/SeedData/learnings.json");
                     var learnings = JsonSerializer.Deserialize<List<Learning>>(learningData);
 
-                    foreach (var learning in learnings)
+                    foreach (var learning in learnings!)
                     {
                         context.Learnings.Add(learning);
                     }
@@ -83,7 +83,7 @@ namespace Infrastructure
                     var sectionsData = File.ReadAllText("../Infrastructure/SeedData/sections.json");
                     var sections = JsonSerializer.Deserialize<List<Section>>(sectionsData);
 
-                    foreach (var item in sections)
+                    foreach (var item in sections!)
                     {
                         var course = await context.Courses.FindAsync(item.CourseId);
 
@@ -106,7 +106,7 @@ namespace Infrastructure
                     var lecturesData = File.ReadAllText("../Infrastructure/SeedData/lectures.json");
                     var lectures = JsonSerializer.Deserialize<List<Lecture>>(lecturesData);
 
-                    foreach (var item in lectures)
+                    foreach (var item in lectures!)
                     {
                         var section = await context.Sections.FindAsync(item.SectionId);
 
