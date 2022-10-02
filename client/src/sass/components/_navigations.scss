@@ -1,8 +1,18 @@
+
+.Mobile--nav--menu{
+  flex: 0 0 100%;
+  @media only screen and (max-width: $bp-medium) {
+    display: block;
+  }
+}
 .nav-container {
     background-color: $color-grey-light-1;
     margin: -10px;
     padding: 10px 5px;
   }
+
+
+
   
   .nav {
     display: flex;
@@ -14,7 +24,9 @@
       align-items: center;
       flex: 0 0 40%;
       font-family: 'Lato';
-  
+      @media only screen and (max-width: $bp-medium) {
+        display: none;
+      }
       & > * {
         margin: 0 10px;
       }
@@ -54,12 +66,16 @@
         }
       }
     }
-  
+    
     &__right {
       display: flex;
       align-items: center;
       flex: 1;
       padding-right: 20px;
+      @media only screen and (max-width: $bp-medium) {
+        display: none;
+      }
+      
   
       &__search {
         display: flex;
@@ -112,7 +128,9 @@
         position: relative;
         padding: 5px 0;
         color: $color-grey-dark-1;
-      
+        @media only screen and (max-width: $bp-medium) {
+          display: none;
+        }
         &__count {
           position: absolute;
           bottom: 18px;
