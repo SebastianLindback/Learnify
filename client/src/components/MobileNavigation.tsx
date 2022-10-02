@@ -50,20 +50,25 @@ import Searchbar from './Navigation/Searchbar';
     const signout = () => {
         dispatch(signOut());
         dispatch(removeBasket());
+        toggleMenu();
         navigate("/");
     }
 
+    const toggleMenu = () => {
+        setMenu(!menu);
+    };
+
     let menuItems: MenuItem[] = [
-        getItem(<Link to="/">Home</Link>, '1', <PieChartOutlined />),
-        getItem(<><Link to="/basket">Basket {basketCount! ??`(${basketCount!})` }</Link></>, '2', <FaIcons.FaShoppingCart />),
+        getItem(<Link onClick={toggleMenu} to="/">Home</Link>, '1', <PieChartOutlined />),
+        getItem(<><Link onClick={toggleMenu} to="/basket">Basket {basketCount ?`[${basketCount}]` : "" }</Link></>, '2', <FaIcons.FaShoppingCart />),
     ];
     const instructorItems = getItem('Roles', 'sub1', <AppstoreOutlined  />, [
-        getItem(<Link to="/profile">Profile</Link>, '3'),
-        getItem(<Link to="/instructor">Instructor</Link>, '4'),
+        getItem(<Link onClick={toggleMenu} to="/profile">Profile</Link>, '3'),
+        getItem(<Link onClick={toggleMenu} to="/instructor">Instructor</Link>, '4'),
     ]);
-    const userItems = getItem(<Link to="/profile">Profile</Link>, '5', <AppstoreOutlined  />);
+    const userItems = getItem(<Link onClick={toggleMenu} to="/profile">Profile</Link>, '5', <AppstoreOutlined  />);
     const logoutItem = getItem(<div onClick={signout}>Logout</div>, '6', <DesktopOutlined   />)
-    const signInItem = getItem(<Link to="/login">Sign in</Link>, '7', <AppstoreOutlined  />);
+    const signInItem = getItem(<Link onClick={toggleMenu} to="/login">Sign in</Link>, '7', <AppstoreOutlined  />);
     
 
     if (user){
@@ -76,9 +81,7 @@ import Searchbar from './Navigation/Searchbar';
     
     
     
-    const toggleMenu = () => {
-        setMenu(!menu);
-    };
+    
   
     return (
       <div className="Mobile--nav--menu">

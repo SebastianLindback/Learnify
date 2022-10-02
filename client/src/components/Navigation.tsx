@@ -3,7 +3,6 @@ import * as FaIcons from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeBasket } from '../redux/slice/basketSlice';
-import { setCourseParams } from '../redux/slice/courseSlice';
 import { signOut } from '../redux/slice/userSlice';
 import { useAppSelector } from '../redux/store/ConfigureStore';
 import MobileNavigation from './MobileNavigation';
@@ -16,13 +15,6 @@ const Navigation = () => {
     const dispatch = useDispatch();
     const {user} = useAppSelector((state) => state.user);
     
-
-    const navigate = useNavigate()
-    const signout = () => {
-        dispatch(signOut());
-        dispatch(removeBasket());
-        navigate("/");
-    }
     // <FaIcons.FaBars onClick={showSidebar} />
     // <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
     //   <ul className="nav-menu-items" onClick={showSidebar}>
@@ -55,9 +47,6 @@ const Navigation = () => {
         <div className="nav">
         <MobileNavigation/>
           <div className="nav__left">
-            <div className="nav__left__hamburger">
-              
-            </div>
             <img className='nav__left__logo' src="https://learnify-assets.s3.amazonaws.com/Images/logo.png" alt="logo" />
   
             <ul className="nav__left__list">
