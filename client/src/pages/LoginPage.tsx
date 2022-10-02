@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import RegisterComponent from "../components/Register";
 import Signin from "../components/Signin";
 
-const Login = () => {
+const LoginPage = () => {
     const [register, setRegister] = useState(false)
 
     const toggleRegister = () => setRegister(!register);
@@ -17,4 +17,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;

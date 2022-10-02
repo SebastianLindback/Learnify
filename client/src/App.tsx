@@ -3,7 +3,7 @@ import {Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Detailpage from './pages/DetailPage';
 import Homepage from './pages/HomePage';
-import Login from './pages/Login';
+import LoginPage from './pages/LoginPage';
 import "antd/dist/antd.min.css";
 import CategoryPage from './pages/CategoryPage';
 import DescriptionPage from './pages/DescriptionPage';
@@ -14,8 +14,8 @@ import DashboardPage from './pages/DashboardPage';
 import PrivateRoute, { ProtectedRouteProps } from './components/PrivateRoute';
 import CheckoutPage from './pages/CheckoutPage';
 import { fetchCurrentUser } from './redux/slice/userSlice';
-import Loading from './components/loading';
 import CoursePage from './pages/CoursePage';
+import Loading from './components/Loading';
 import InstructorPage from './pages/InstructorPage';
 import CreateCoursePage from './pages/CreateCoursePage';
 import { getCategoriesAsync } from './redux/slice/categorySlice';
@@ -63,7 +63,7 @@ function App() {
       <Route path="/course/:id" element={<DescriptionPage/>}/>
       <Route path="/category/:id" element={<CategoryPage/>}/>
       <Route path="/basket" element={<BasketPage/>}/>
-      <Route path="/login" element={<Login/>}/>
+      <Route path="/login" element={<LoginPage/>}/>
       <Route path="/detail" element={<Detailpage/>}/>
 
       <Route path="/profile" element={<PrivateRoute {...defaultProtectedRouteProps} outlet={<DashboardPage/>}/>}/>

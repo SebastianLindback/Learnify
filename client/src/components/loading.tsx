@@ -1,7 +1,7 @@
 import { Spin } from 'antd'
 import React from 'react'
 
-function loading() {
+function Loading() {
   return (
     <div className="loading">
         <Spin size="large" tip="loading..."></Spin>
@@ -9,4 +9,4 @@ function loading() {
   )
 }
 
-export default loading
+export default Loading

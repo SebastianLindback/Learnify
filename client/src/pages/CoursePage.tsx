@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
-import Loading from '../components/loading';
 import { LectureDto } from '../models/lecture';
 import {
   getLecturesAsync,
@@ -11,6 +10,7 @@ import {
 } from '../redux/slice/lectureSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
 import { useParams } from 'react-router';
+import Loading from '../components/Loading';
 
 const CoursePage = () => {
   const params = useParams();
