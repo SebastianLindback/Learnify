@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
 import { Course } from '../models/course';
-import {Card, Col, Pagination, Radio, Row} from "antd";
+import {Card, Col, Pagination, PaginationProps, Radio, Row} from "antd";
 import ShowCourses from '../components/ShowCourses';
 import { useAppDispatch, useAppSelector } from '../redux/store/ConfigureStore';
-import { coursesSelector, getCoursesAsync, setCourseParams, setPageNumber } from '../redux/slice/courseSlice';
-import { categoriesSelector } from '../redux/slice/categorySlice';
+import { coursesSelector, getCoursesAsync, setCourseParams, setPageNumber, setPagination } from '../redux/slice/courseSlice';
+import { categoriesSelector, getCategoriesAsync } from '../redux/slice/categorySlice';
 import { Category } from '../models/category';
-import Categories from '../components/Categories';
 
 const sortOptions= [
   {value: "title", label: "Alphabetical"},
@@ -19,8 +18,9 @@ const sortOptions= [
 const HomePage = () => {
     const courses = useAppSelector(coursesSelector.selectAll);
     const dispatch = useAppDispatch();
+    const { categoriesLoaded } = useAppSelector((state) => state.category);
     const {coursesLoaded, pagination, courseParams} = useAppSelector((state) => state.course);
-    const categories = useAppSelector(categoriesSelector.selectAll)
+    const categories = useAppSelector(categoriesSelector.selectAll);
     
     const getCategories = () => {
       const catArray:any[] = [];
@@ -29,16 +29,23 @@ const HomePage = () => {
       });
       return catArray;
     };
+
+    const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, PageSize) => {
+      
+      dispatch(setCourseParams({...courseParams, pageSize: PageSize}))
+      
+    };
+    
     useEffect(() => {
         if (!coursesLoaded) dispatch(getCoursesAsync())
-    },[coursesLoaded, dispatch]);
+        if (!categoriesLoaded) dispatch(getCategoriesAsync())
+    },[coursesLoaded, onShowSizeChange, dispatch]);
 
     function onPageChange(pageNumber:number){
       dispatch(setPageNumber({ pageIndex: pageNumber }));
     }
 
     return (<>
-    <Categories/>
       <div className="course">
         <div className="course__header">
           <h1>What to learn Next?</h1>
@@ -78,7 +85,10 @@ const HomePage = () => {
                   defaultCurrent={pagination?.pageIndex}
                   total={pagination?.totalCount}
                   onChange={onPageChange}
-                  pageSize={pagination?.pageSize}
+                  pageSizeOptions={[3,5,10,20]}
+                  defaultPageSize={3}
+                  showSizeChanger
+                  onShowSizeChange={onShowSizeChange}
                 />
               )}
             </div>
