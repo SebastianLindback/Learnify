@@ -46,7 +46,7 @@ import Searchbar from './Navigation/Searchbar';
     const basketCount = basket?.items.length!;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const instructorRole = "Instructor";
     const signout = () => {
         dispatch(signOut());
         dispatch(removeBasket());
@@ -72,13 +72,11 @@ import Searchbar from './Navigation/Searchbar';
     
 
     if (user){
-        if (user?.roles?.includes("instructor")) menuItems.push(instructorItems);
+        if (user?.roles?.includes(instructorRole)) menuItems.push(instructorItems);
         else if (user) menuItems.push(userItems);
         menuItems.push(logoutItem);
     }
     else menuItems.push(signInItem);
-    
-    
     
     
     
