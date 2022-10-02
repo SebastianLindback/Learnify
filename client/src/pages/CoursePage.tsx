@@ -21,7 +21,7 @@ const CoursePage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!lecture) dispatch(getLecturesAsync({ courseId: params.course! }));
-  }, [dispatch, params!, lecture]);
+  }, [dispatch, params, lecture]);
 
   useEffect(() => {
     if (currentLecture === 0) {
@@ -37,7 +37,7 @@ const CoursePage = () => {
         var path = str.substring(0, lastIndex);
         var new_path = path + `/${currentLecture}`;
 
-        if (str != new_path) window.location.assign(new_path);
+        if (str !== new_path) window.location.assign(new_path);
     }
 
     let lectureItem: LectureDto;
@@ -70,7 +70,7 @@ const CoursePage = () => {
         var path = str.substring(0, lastIndex);
         var new_path = path + `/${id}`;
         
-        if (str != new_path) window.location.assign(new_path);
+        if (str !== new_path) window.location.assign(new_path);
     }
   };
   
